@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="User"
+            type="com.openlearning.ilearn.registration.User" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.HomeScreen">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/IVAccountTypeIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/icon_description"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_reading"
+            app:tint="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/TVUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@{User.name}"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintStart_toEndOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintTop_toTopOf="@+id/IVAccountTypeIcon"
+            tools:text="Hassaan Ali Mehmood" />
+
+        <TextView
+            android:id="@+id/TVUserType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{User.accountType == 1 ? "Student" : "Instructor"}'
+            android:textColor="@color/colorOrangeYellowFancy"
+            app:layout_constraintStart_toEndOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintTop_toBottomOf="@+id/TVUserName"
+            tools:text="Student" />
+
+        <ImageView
+            android:id="@+id/IVBell"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/icon_description"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_bell"
+            app:tint="@color/colorWhite" />
+
+        <ImageView
+            android:id="@+id/IVThreeDots"
+            android:layout_width="32dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="24dp"
+            android:contentDescription="@string/icon_description"
+            app:layout_constraintBottom_toBottomOf="@+id/TVAppName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/TVAppName"
+            app:srcCompat="@drawable/ic_three_dots" />
+
+        <TextView
+            android:id="@+id/TVAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="100dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorWhite"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVAllNewsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVAppName"
+            tools:listitem="@layout/view_single_news" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "394695094180",
+    "project_id": "ilearn-a59de",
+    "storage_bucket": "ilearn-a59de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394695094180:android:d518a4aeb0f90467ff5b31",
+        "android_client_info": {
+          "package_name": "com.openlearning.ilearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394695094180-ff977uvee2ttalbm3no6jap04sae2e3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.openlearning.ilearn",
+            "certificate_hash": "ed6cbec0188a013eefabbfb43d5b770288d4a21e"
+          }
+        },
+        {
+          "client_id": "394695094180-uebmtr8ovtjjv0isih7l583duu7ht644.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmtw8HmK2EqhQcB9JIRUgSA3xXsMYQQvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394695094180-uebmtr8ovtjjv0isih7l583duu7ht644.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

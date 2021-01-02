@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="User"
+            type="com.openlearning.ilearn.registration.User" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/colorGrayLight"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/IVAccountTypeIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/icon_description"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_reading"
+            app:tint="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/TVUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="@{User.name}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintStart_toEndOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintTop_toTopOf="@+id/IVAccountTypeIcon"
+            tools:text="Hassaan Ali Mehmood" />
+
+        <TextView
+            android:id="@+id/TVUserType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{User.accountType == 1 ? "Student" : "Instructor"}'
+            android:textColor="@color/colorBlack"
+            app:layout_constraintStart_toEndOf="@+id/IVAccountTypeIcon"
+            app:layout_constraintTop_toBottomOf="@+id/TVUserName"
+            tools:text="Student" />
+
+
+        <Button
+            android:id="@+id/BTNChangeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/colorBlue"
+            android:fontFamily="@font/allerta"
+            android:text="@string/change_name"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/IVAccountTypeIcon" />
+
+
+        <Button
+            android:id="@+id/BTNChangePassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorGreenDark"
+            android:fontFamily="@font/allerta"
+            android:text="Change Password"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BTNChangeName" />
+
+
+        <Button
+            android:id="@+id/BTNSignOut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/allerta"
+            android:text="@string/sign_out"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BTNChangePassword" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

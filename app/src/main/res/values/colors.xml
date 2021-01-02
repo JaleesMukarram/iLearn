@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#DF001A</color>
+    <color name="colorPrimaryDark">#A30316</color>
+
+    <color name="colorPrimaryLight">#FF344B</color>
+    <color name="colorPrimaryExtraLight">#FD576A</color>
+    <color name="colorPrimaryCard">#FFF0F2</color>
+
+    <color name="primaryTransparent">#33F1D3D3</color>
+
+    <color name="colorAccent">#D3D3D3</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorLemon">#beed02</color>
+
+    <color name="colorGreen">#07ba22</color>
+    <color name="colorGreenDark">#0d8703</color>
+    <color name="colorGreenLight">#1fcc10</color>
+    <color name="colorGreenParrot">#3cff2b</color>
+    <color name="colorGreenBlur">#5407BA22</color>
+    <color name="colorGreenCard">#DDFFE1</color>
+
+    <color name="colorRed">#eb0c0c</color>
+    <color name="colorRedLight">#ff1f1f</color>
+    <color name="colorRedDark">#c70a0a</color>
+    <color name="colorRedCard">#FFE0E0</color>
+
+
+    <color name="colorBlue">#004d85</color>
+    <color name="colorBlueDark">#063c63</color>
+    <color name="colorBlueLight">#0e8de8</color>
+    <color name="colorBlueCard">#D0EBFD</color>
+
+
+    <color name="colorSkyBlue">#0dc6de</color>
+    <color name="colorSkyBlueDark">#07a3b8</color>
+    <color name="colorSkyBlueLight">#54ebff</color>
+    <color name="colorSkyBlueCard">#F5FFFF</color>
+
+
+    <color name="colorYellow">#ffe100</color>
+    <color name="colorYellowDark">#d9c007</color>
+    <color name="colorYellowLight">#ffe840</color>
+    <color name="colorOrangeYellowFancy">#FFBB56</color>
+    <color name="colorYellowCard">#FFFFF8</color>
+
+
+    <color name="colorOrange">#e84a07</color>
+    <color name="colorOrangeDark">#d14002</color>
+    <color name="colorOrangeLight">#ff621f</color>
+    <color name="colorOrangeBlur">#86E84A07</color>
+    <color name="colorOrangeExtraLight">#FF783F</color>
+    <color name="colorOrangeExtraLightGradient">#FF8C5C</color>
+    <color name="colorOrangeSlideTransparent">#0FE84A07</color>
+    <color name="colorOrangeCard">#FFEADB</color>
+
+
+    <color name="colorPink">#eb0c6c</color>
+    <color name="colorPinkDark">#cc0a5e</color>
+    <color name="colorPinkLight">#ff4294</color>
+    <color name="colorPinkCard">#FFF9FD</color>
+
+
+    <color name="colorPurple">#6206d1</color>
+    <color name="colorPurpleDark">#5207ad</color>
+    <color name="colorPurpleLight">#8f37fa</color>
+    <color name="colorPurpleCard">#DED5FF</color>
+
+    <color name="colorBrown">#70260F</color>
+    <color name="colorBrownDark">#511806</color>
+    <color name="colorBrownLight">#D87657</color>
+    <color name="colorBrownCard">#FFCCBD</color>
+
+    <color name="colorGray">#D3D3D3</color>
+    <color name="colorGrayDark">#b3b3b3</color>
+    <color name="colorGrayLight">#ebebeb</color>
+    <color name="colorGrayText">#757575</color>
+    <color name="colorGrayTextDark">#595858</color>
+
+    <color name="colorGrayLightMax">#ECECEC</color>
+
+
+    <color name="colorEditTextBG">#CEF4F4F4</color>
+    <color name="background">#F1F1F1</color>
+
+</resources>

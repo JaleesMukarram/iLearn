@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.openlearning.ilearn">
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ILearn">
+        <activity android:name=".news.NewsDetails" />
+        <activity android:name=".activities.HomeScreenInstructor" />
+        <activity android:name=".quiz.activities.AddQuestions" />
+        <activity android:name=".quiz.activities.QuizSections" />
+        <activity android:name=".quiz.activities.AllQuiz" />
+        <activity android:name=".quiz.activities.AllSubjects" />
+        <activity android:name=".quiz.activities.AddQuiz" />
+        <activity android:name=".quiz.activities.AddSubject" />
+        <activity android:name=".news.AllNews" />
+        <activity android:name=".news.AddNews" />
+        <activity android:name=".activities.HomeScreen" />
+        <activity android:name=".activities.CompleteRegistration" />
+        <activity
+            android:name=".activities.SignIn"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activities.SignUp"
+            android:launchMode="singleInstance" />
+        <activity android:name=".activities.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+    </application>
+
+</manifest>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.openlearning.ilearn.utils.CommonUtils" />
+
+        <variable
+            name="Subject"
+            type="com.openlearning.ilearn.quiz.modals.Subject" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+
+            <TextView
+                android:id="@+id/TVSubjectHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{Subject.name}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="MDCAT Date" />
+
+            <TextView
+                android:id="@+id/TVSubjectTitle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@{Subject.description}"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/TVNewsRelativeDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TVSubjectHeading"
+                tools:text="MDCAT Test date announced for all provinces" />
+
+            <TextView
+                android:id="@+id/TVNewsRelativeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@{CommonUtils.getRelativeDate(Subject.createdDate)}"
+                android:textColor="@color/colorGrayText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="2d" />
+
+            <ImageView
+                android:id="@+id/IVThreeDots"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icon_description"
+                android:padding="4dp"
+                android:src="@drawable/ic_three_dots"
+                app:layout_constraintBottom_toBottomOf="@+id/TVSubjectHeading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TVSubjectHeading"
+                app:tint="@color/colorPrimary" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

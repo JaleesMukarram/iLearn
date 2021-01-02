@@ -1,0 +1,22 @@
+package com.openlearning.ilearn.utils;
+
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
+public class CustomViewAdapter {
+
+    @BindingAdapter({"android:imgSrcSmall"})
+    public static void setImageResource(ImageView view, File imageFile) {
+
+        Picasso.get().load(imageFile)
+                .resize(100, 100)
+                .into(view);
+
+
+    }
+}
