@@ -5,12 +5,16 @@
 
     <data>
 
+        <variable
+            name="Quiz"
+            type="com.openlearning.ilearn.quiz.modals.Quiz" />
+
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".quiz.activities.AddQuiz">
+        tools:context=".quiz.admin.activities.AddQuiz">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,14 +46,15 @@
 
             <ImageView
                 android:id="@+id/IVThreeDots"
-                android:layout_width="32dp"
-                android:layout_height="16dp"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="24dp"
                 android:contentDescription="@string/icon_description"
+                android:padding="8dp"
+                android:src="@drawable/three_dots_selector"
                 app:layout_constraintBottom_toBottomOf="@+id/TVAppName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/TVAppName"
-                app:srcCompat="@drawable/ic_three_dots" />
+                app:layout_constraintTop_toTopOf="@+id/TVAppName" />
 
             <TextView
                 android:id="@+id/TVAppName"
@@ -87,6 +92,7 @@
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{Quiz.quizName}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -106,6 +112,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{Quiz.quizDescription}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/ETQuizName" />
@@ -169,10 +176,11 @@
                 android:autofillHints="minutes"
                 android:background="@drawable/edit_text_bg"
                 android:ems="10"
-                android:hint="Quiz Time (minutes)"
+                android:hint="@string/quiz_time_minutes"
                 android:inputType="number"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{String.valueOf(Quiz.quizDurationMin)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/ETQuizDescription" />

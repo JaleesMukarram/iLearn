@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".quiz.activities.QuizSections">
+        tools:context=".quiz.admin.activities.AllQuizSections">
 
 
         <View
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="All Section of the quiz"
+            android:text="@string/all_section_of_the_quiz"
             android:textColor="@color/colorWhite"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -64,21 +64,20 @@
             android:id="@+id/RVAllQuizSectionsRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/BTNAddSection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVAppName"
-            tools:listitem="@layout/view_single_quiz" />
+            tools:listitem="@layout/view_single_quiz_section" />
 
         <Button
             android:id="@+id/BTNAddSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Add New Section"
+            android:text="@string/add_new_section"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"

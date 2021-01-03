@@ -4,13 +4,17 @@
 
     <data>
 
+        <variable
+            name="Question"
+            type="com.openlearning.ilearn.quiz.modals.QuizQuestion" />
+
 
     </data>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorGrayLight"
         android:padding="16dp">
 
@@ -48,6 +52,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{Question.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TVAskingText" />
@@ -62,9 +67,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:ems="10"
                 android:hint="@string/positive_marks"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{String.valueOf(Question.positive)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ETQuestionName" />
@@ -79,9 +85,10 @@
                 android:background="@drawable/edit_text_bg"
                 android:ems="10"
                 android:hint="@string/negative_marks"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:text="@{String.valueOf(Question.negative)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ETPositive" />
@@ -112,13 +119,15 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/BTNOK"
+                android:id="@+id/BTNAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/ok"
+                android:layout_marginBottom="8dp"
+                android:text="@string/add"
                 android:textColor="@color/colorWhite"
                 android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/LLQuestionOptions" />
@@ -129,11 +138,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:backgroundTint="@color/colorGreenDark"
-                android:text="Add Option"
+                android:text="@string/add_option"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="@+id/TVOptionShowing"
                 app:layout_constraintStart_toEndOf="@+id/TVOptionShowing"
                 app:layout_constraintTop_toTopOf="@+id/TVOptionShowing" />
+
+            <ImageView
+                android:id="@+id/IVCancel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icon_description"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/TVAskingText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TVAskingText"
+                app:srcCompat="@drawable/ic_close_24" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

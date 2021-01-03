@@ -12,7 +12,7 @@ import com.openlearning.ilearn.databinding.ActivityHomeScreenInstructorBinding;
 import com.openlearning.ilearn.dialogues.AccountOptionDialogue;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
 import com.openlearning.ilearn.news.AllNews;
-import com.openlearning.ilearn.quiz.activities.AllSubjects;
+import com.openlearning.ilearn.quiz.admin.activities.AllSubjects;
 import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.view_models.HomeScreenInstructorVM;
 

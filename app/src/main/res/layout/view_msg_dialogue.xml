@@ -18,14 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@color/colorGrayLight"
         android:padding="16dp">
 
         <ProgressBar
             android:id="@+id/PBRWorking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:theme="@style/Theme.ILearn.PrimAsSec" />
 
         <TextView
             android:id="@+id/TVShortMessage"
@@ -35,7 +35,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@{shortMessage}"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Please wait..." />
@@ -45,8 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/TVShortMessage"
-            android:layout_margin="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="30dp"
             android:text="@{longMessage}"
+            android:textAlignment="center"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             tools:text="Please wait while we are adding new News to the iLearn" />

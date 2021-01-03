@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.activities.SignIn;
 import com.openlearning.ilearn.databinding.ViewAccountOptionDialogueBinding;
-import com.openlearning.ilearn.quiz.dialogues.SingleEditDialogue;
+import com.openlearning.ilearn.quiz.admin.dialogues.SingleEditDialogue;
 import com.openlearning.ilearn.registration.User;
 import com.openlearning.ilearn.registration.UserRegistration;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;

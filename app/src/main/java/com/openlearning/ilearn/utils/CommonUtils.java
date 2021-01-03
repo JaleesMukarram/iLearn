@@ -68,7 +68,6 @@ public class CommonUtils {
         return loadingDialogue;
     }
 
-
     private static void startIntent(Activity oldActivity, Intent intent) {
 
         oldActivity.startActivity(intent);
@@ -161,18 +160,18 @@ public class CommonUtils {
 
     public static void deleteThisStorageImage(StorageImage storageImage) {
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(storageImage.getStorageDeletePath());
-        storageReference.delete();
+        FirebaseStorage.getInstance().getReference(storageImage.getStorageDeletePath()).delete();
+
     }
 
-    public static void showConfirmationDialogue(Activity activity, String title, String message, ConfirmationListener listener) {
+    public static void showConfirmationDialogue(Activity activity, String title, String message, String positiveText, ConfirmationListener listener) {
 
         AlertDialog.Builder alertConf = new AlertDialog.Builder(activity);
 
         alertConf.setTitle(title);
         alertConf.setMessage(message);
 
-        alertConf.setPositiveButton("Start", (dialogInterface, i) -> listener.onPositive());
+        alertConf.setPositiveButton(positiveText, (dialogInterface, i) -> listener.onPositive());
         alertConf.setNegativeButton("Cancel", (dialogInterface, i) -> listener.onNegative());
 
         AlertDialog dialog = alertConf.create();

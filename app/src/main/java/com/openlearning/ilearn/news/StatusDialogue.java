@@ -72,7 +72,7 @@ public class StatusDialogue {
 
     private void showDeleteConfirmation(StatusListener listener) {
 
-        CommonUtils.showConfirmationDialogue(homeScreen, "Delete News", "Are you sure you want to delete this news permanently?", new ConfirmationListener() {
+        CommonUtils.showConfirmationDialogue(homeScreen, "Delete News", "Are you sure you want to delete this news permanently?", "Delete", new ConfirmationListener() {
             @Override
             public void onPositive() {
 

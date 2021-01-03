@@ -13,7 +13,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="12dp">
@@ -35,12 +35,24 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="MDCAT Date" />
+                tools:text="Mutex Lock Quiz" />
+
+            <TextView
+                android:id="@+id/TVQuizTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text='@{Quiz.quizDurationMin + " min"}'
+                android:textColor="@color/colorGrayText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/TVQuizName"
+                app:layout_constraintStart_toEndOf="@+id/TVQuizName"
+                tools:text="30 min" />
 
             <TextView
                 android:id="@+id/TVQuizDescription"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{Quiz.quizDescription}"
                 android:textColor="@color/colorBlack"
@@ -50,6 +62,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TVQuizName"
                 tools:text="MDCAT Test date announced for all provinces" />
+
+            <ImageView
+                android:id="@+id/IVThreeDots"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icon_description"
+                android:padding="4dp"
+                android:src="@drawable/ic_three_dots"
+                app:layout_constraintBottom_toBottomOf="@+id/TVQuizName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TVQuizName"
+                app:tint="@color/colorPrimary" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

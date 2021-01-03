@@ -49,6 +49,7 @@
     <string name="manage_subjects">Manage Subjects</string>
     <string name="add_new_quiz">Add New Quiz</string>
     <string name="add_quiz">Add Quiz</string>
+    <string name="edit_quiz">Edit Quiz</string>
     <string name="select_the_file_to_send">Select the file to send</string>
     <string name="subject_description">Subject Description</string>
     <string name="edit_subject">Edit Subject</string>
@@ -57,6 +58,14 @@
     <string name="change_status">Change Status</string>
     <string name="edit_news">Edit News</string>
     <string name="add_new_news">Add New News</string>
-
+    <string name="add_new_subject">Add New Subject</string>
+    <string name="all_quizes_of_the_subject">All Quizes of the subject</string>
+    <string name="quiz_time_minutes">Quiz Time (minutes)</string>
+    <string name="add_new_section">Add New Section</string>
+    <string name="all_section_of_the_quiz">All Section of the quiz</string>
+    <string name="all_questions_of_the_section">All Questions of the section</string>
+    <string name="add_option">Add Option</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
 
 </resources>

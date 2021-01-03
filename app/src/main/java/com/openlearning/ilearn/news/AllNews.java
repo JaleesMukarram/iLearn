@@ -53,6 +53,8 @@ public class AllNews extends AppCompatActivity implements ActivityHooks {
         viewModel = ViewModelProviders.of(this).get(AllNewsVM.class);
         mBinding.SRLNewsRefresh.setOnRefreshListener(() -> viewModel.getNews(this, true));
 
+        mBinding.BTNAddNews.setOnClickListener(v -> CommonUtils.changeActivity(this, AddNews.class, false));
+
     }
 
     @Override
@@ -72,11 +74,12 @@ public class AllNews extends AppCompatActivity implements ActivityHooks {
             if (aBoolean) {
                 loaded();
                 CommonUtils.showWarningDialogue(this, "No News Found. Your added News will be displayed here");
+                mBinding.SRLNewsRefresh.setRefreshing(false);
+
             }
 
         });
         viewModel.getNews(this, false);
-        mBinding.BTNAddNews.setOnClickListener(v -> CommonUtils.changeActivity(this, AddNews.class, false));
 
     }
 

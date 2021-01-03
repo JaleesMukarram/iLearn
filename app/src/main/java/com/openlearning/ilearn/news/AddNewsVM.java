@@ -78,9 +78,9 @@ public class AddNewsVM extends ViewModel {
 
     private void addNewsToDatabase(Activity activity, News news) {
 
-        LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we adding your breaking News");
 
         if (editNews != null) {
+            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we add your breaking News");
 
             newsRepository.updateThisNewsIntoDatabase(news, new FirebaseSuccessListener() {
                 @Override
@@ -104,6 +104,7 @@ public class AddNewsVM extends ViewModel {
             });
 
         } else {
+            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we edit your breaking News");
 
             newsRepository.insertNewsIntoDatabase(news, new FirebaseSuccessListener() {
 

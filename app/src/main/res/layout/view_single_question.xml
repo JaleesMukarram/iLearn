@@ -41,13 +41,27 @@
                 android:id="@+id/TVNewsRelativeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text='@{Question.questionOptionList.size() + " options"}'
                 android:textColor="@color/colorGrayText"
                 android:textSize="12sp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TVQuestionName"
-                tools:text="2d" />
+                tools:text="2 options" />
+
+
+            <ImageView
+                android:id="@+id/IVThreeDots"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icon_description"
+                android:padding="4dp"
+                android:src="@drawable/ic_three_dots"
+                app:layout_constraintBottom_toBottomOf="@+id/TVQuestionName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TVQuestionName"
+                app:tint="@color/colorPrimary" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
