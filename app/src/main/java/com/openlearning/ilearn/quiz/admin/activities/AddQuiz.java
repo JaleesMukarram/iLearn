@@ -67,8 +67,8 @@ public class AddQuiz extends AppCompatActivity implements ActivityHooks {
         mBinding.BTNAddQuiz.setOnClickListener(v -> viewModel.checkQuiz(this,
                 mBinding.ETQuizName.getText().toString().trim(),
                 mBinding.ETQuizDescription.getText().toString(),
-                mBinding.ETQuizDuration.getText().toString().trim()
-
+                mBinding.ETQuizDuration.getText().toString().trim(),
+                mBinding.SWPractive.isChecked()
         ));
 
         mBinding.IVThreeDots.setOnClickListener(v -> showStatusDialogue());

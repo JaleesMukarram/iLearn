@@ -3,9 +3,11 @@ package com.openlearning.ilearn.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.DisplayMetrics;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -176,6 +178,11 @@ public class CommonUtils {
 
         AlertDialog dialog = alertConf.create();
         dialog.show();
+    }
+
+    public static int dpToPixel(Context context, float dp) {
+
+        return (int) (dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
 

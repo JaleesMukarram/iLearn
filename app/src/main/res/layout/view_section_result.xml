@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:minWidth="300dp">
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionNameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/colorGrayLightMax"
+            android:minWidth="300dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionNameShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionTotalContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionNameContainer"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_questions"
+                android:textColor="@color/colorGrayText"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TVSectionTotalShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionTotal"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionAttemptedContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionTotalContainer"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionAttempted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_attempted"
+                android:textColor="@color/colorGrayText"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TVSectionAttemptedShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionAttempted"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionCorrectContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionAttemptedContainer"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionCorrect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/correct"
+                android:textColor="@color/colorGrayText"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TVSectionCorrectShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionCorrect"
+                android:textColor="@color/colorGreenDark"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionInCorrectContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionCorrectContainer"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionInCorrect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/incorrect"
+                android:textColor="@color/colorGrayText"
+                android:textSize="14sp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/TVSectionInCorrectShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionInCorrect"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"
+
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionAccuracyContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionInCorrectContainer"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionSectionAccuracy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accuracy"
+                android:textColor="@color/colorGrayText"
+                android:textSize="14sp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/TVSectionSectionAccuracyShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionSectionAccuracy"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+
+                />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSectionResultSectionConfirmationContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLSectionResultSectionAccuracyContainer"
+            android:layout_margin="20dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSectionResultSectionConfirmationShowing"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/BTNSectionResultSectionConfirmation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/yes"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp"
+                    tools:ignore="ButtonStyle" />
+
+
+                <Button
+                    android:id="@+id/BTNSectionResultSectionConfirmationCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorGray"
+                    android:text="@string/no"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="13sp"
+                    tools:ignore="ButtonStyle" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/TVSectionResultSectionConfirmationShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/submit_section"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

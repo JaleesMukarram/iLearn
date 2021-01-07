@@ -35,7 +35,7 @@ public class AddQuizVM extends ViewModel {
         quizRepository = QuizRepository.getInstance();
     }
 
-    public void checkQuiz(Activity activity, String quizName, String quizDescription, String quizTime) {
+    public void checkQuiz(Activity activity, String quizName, String quizDescription, String quizTime, boolean practice) {
 
         String quizNameStatus = validateQuizName(quizName);
         if (!quizNameStatus.equals(VALIDATION_SUCCESS)) {
@@ -62,7 +62,7 @@ public class AddQuizVM extends ViewModel {
             return;
         }
 
-        Quiz quiz = makeQuiz(quizName, quizDescription, Integer.parseInt(quizTime));
+        Quiz quiz = makeQuiz(quizName, quizDescription, Integer.parseInt(quizTime), practice);
         addQuizToDatabase(activity, quiz);
 
         Log.d(TAG, "Quiz: " + quiz);
@@ -196,7 +196,7 @@ public class AddQuizVM extends ViewModel {
 
     }
 
-    private Quiz makeQuiz(String quizName, String quizDescription, int quizTime) {
+    private Quiz makeQuiz(String quizName, String quizDescription, int quizTime, boolean practice) {
 
         if (editQuiz != null) {
 
@@ -204,11 +204,12 @@ public class AddQuizVM extends ViewModel {
             editQuiz.setQuizDescription(quizDescription);
             editQuiz.setQuizDurationMin(quizTime);
             editQuiz.setActive(active);
+            editQuiz.setPractice(practice);
             return editQuiz;
 
         }
 
-        return new Quiz(quizName, quizDescription, quizTime, quizSubject.getId(), active);
+        return new Quiz(quizName, quizDescription, quizTime, quizSubject.getId(), active, practice);
     }
 
     public void setQuizSubject(Subject quizSubject) {

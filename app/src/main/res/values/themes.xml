@@ -28,5 +28,22 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="PrimaryAsAccent">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="SecondaryAsAccent">
+        <item name="colorAccent">@color/colorPurple</item>
+    </style>
+
+    <style name="GreenAsAccent">
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
+
+    <style name="YellowAsAccent">
+        <item name="colorAccent">@color/colorYellow</item>
+    </style>
+
+
 
 </resources>

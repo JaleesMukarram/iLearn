@@ -14,7 +14,7 @@
             type="String" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -25,7 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:theme="@style/Theme.ILearn.PrimAsSec" />
+            android:layout_marginTop="32dp"
+            android:theme="@style/Theme.ILearn.PrimAsSec"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/TVShortMessage"
@@ -33,11 +37,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/PBRWorking"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
             android:text="@{shortMessage}"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/PBRWorking"
+            app:layout_constraintStart_toStartOf="@+id/PBRWorking"
+            app:layout_constraintTop_toBottomOf="@+id/PBRWorking"
             tools:text="Please wait..." />
 
         <TextView
@@ -45,16 +51,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/TVShortMessage"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:text="@{longMessage}"
             android:textAlignment="center"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVShortMessage"
             tools:text="Please wait while we are adding new News to the iLearn" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

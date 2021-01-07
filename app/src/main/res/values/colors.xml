@@ -18,15 +18,19 @@
     <color name="colorLemon">#beed02</color>
 
     <color name="colorGreen">#07ba22</color>
+    <color name="colorGreenFancy">#1EBF5E</color>
     <color name="colorGreenDark">#0d8703</color>
-    <color name="colorGreenLight">#1fcc10</color>
+    <color name="colorGreenLight">#27C537</color>
     <color name="colorGreenParrot">#3cff2b</color>
     <color name="colorGreenBlur">#5407BA22</color>
-    <color name="colorGreenCard">#DDFFE1</color>
+    <color name="colorGreenAnswered">#BFFFD9</color>
+    <color name="colorGreenCard">#BFFFD9</color>
+
 
     <color name="colorRed">#eb0c0c</color>
     <color name="colorRedLight">#ff1f1f</color>
     <color name="colorRedDark">#c70a0a</color>
+    <color name="colorRedExtraLight">#FF6262</color>
     <color name="colorRedCard">#FFE0E0</color>
 
 
@@ -46,7 +50,7 @@
     <color name="colorYellowDark">#d9c007</color>
     <color name="colorYellowLight">#ffe840</color>
     <color name="colorOrangeYellowFancy">#FFBB56</color>
-    <color name="colorYellowCard">#FFFFF8</color>
+    <color name="colorYellowCard">#FFFBDD</color>
 
 
     <color name="colorOrange">#e84a07</color>
@@ -69,6 +73,8 @@
     <color name="colorPurpleDark">#5207ad</color>
     <color name="colorPurpleLight">#8f37fa</color>
     <color name="colorPurpleCard">#DED5FF</color>
+    <color name="colorPurpleLightMax">#B67AFF</color>
+
 
     <color name="colorBrown">#70260F</color>
     <color name="colorBrownDark">#511806</color>

@@ -7,7 +7,7 @@
 
         <variable
             name="Quiz"
-            type="com.openlearning.ilearn.quiz.modals.Quiz" />
+            type="com.openlearning.ilearn.quiz.admin.modals.Quiz" />
 
     </data>
 

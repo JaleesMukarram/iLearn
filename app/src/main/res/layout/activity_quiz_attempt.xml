@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".quiz.client.activities.QuizActivity">
+
+        <View
+            android:id="@+id/VTopContainer"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/IVBackIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/icon_description"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/VTopContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_ios_24"
+            app:tint="@color/colorWhite" />
+
+        <ImageView
+            android:id="@+id/IVOptionsIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/icon_description"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/VTopContainer"
+            app:layout_constraintEnd_toEndOf="@+id/VTopContainer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/notes_selector" />
+
+        <TextView
+            android:id="@+id/TVQuizName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/IVBackIcon"
+            app:layout_constraintEnd_toStartOf="@+id/TVQuizTime"
+            app:layout_constraintStart_toEndOf="@+id/IVBackIcon"
+            app:layout_constraintTop_toTopOf="@+id/IVBackIcon"
+            tools:text="Math Sequence" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVQuizNewAllSectionsShowing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/VTopContainer"
+            tools:listitem="@layout/view_single_section" />
+
+        <TextView
+            android:id="@+id/TVQuizTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/IVOptionsIcon"
+            app:layout_constraintEnd_toStartOf="@+id/IVOptionsIcon"
+            app:layout_constraintTop_toTopOf="@+id/IVOptionsIcon" />
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/VP2llQuestionsShowing"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorGrayLightMax"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RVQuizNewAllSectionsShowing" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

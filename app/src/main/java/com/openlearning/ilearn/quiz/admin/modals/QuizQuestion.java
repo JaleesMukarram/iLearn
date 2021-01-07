@@ -29,11 +29,8 @@ public class QuizQuestion implements Parcelable, Serializable {
     private double positive;
     private double negative;
     // Tracking variables
-    @Exclude
     private boolean visited;
-    @Exclude
     private boolean answered;
-    @Exclude
     private boolean marked;
 
     private List<QuestionOption> questionOptionList;
@@ -62,10 +59,6 @@ public class QuizQuestion implements Parcelable, Serializable {
 
     public String getID() {
         return id;
-    }
-
-    public void setID(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -101,6 +94,7 @@ public class QuizQuestion implements Parcelable, Serializable {
         this.questionOptionList = questionOptionList;
     }
 
+    @Exclude
     public boolean isVisited() {
         return visited;
     }
@@ -109,6 +103,7 @@ public class QuizQuestion implements Parcelable, Serializable {
         this.visited = visited;
     }
 
+    @Exclude
     public boolean isAnswered() {
         return answered;
     }
@@ -117,6 +112,7 @@ public class QuizQuestion implements Parcelable, Serializable {
         this.answered = answered;
     }
 
+    @Exclude
     public boolean isMarked() {
         return marked;
     }
@@ -128,7 +124,7 @@ public class QuizQuestion implements Parcelable, Serializable {
     @Override
     public String toString() {
         return "QuizQuestion{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", positive=" + positive +
                 ", negative=" + negative +

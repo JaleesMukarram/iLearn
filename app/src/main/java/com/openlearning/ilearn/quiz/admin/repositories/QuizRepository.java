@@ -192,6 +192,7 @@ public class QuizRepository {
                         return;
                     }
 
+                    assert quizList != null;
                     quizList.clear();
 
                     Log.d(TAG, "getQuizFromDatabase: " + task.getResult().size());
@@ -223,7 +224,7 @@ public class QuizRepository {
         if (!fromServer && quizSectionList != null && quizSectionList.size() > 0) {
 
             listener.onSuccess(quizSectionList);
-            Log.d(TAG, "listenQuizSectionsFromDatabase: Old list returned");
+            Log.d(TAG, "getQuizSectionsFromDatabase: Old list returned");
             return;
         }
 
@@ -236,7 +237,7 @@ public class QuizRepository {
 
                     if (error != null) {
 
-                        Log.d(TAG, "listenQuizSectionsFromDatabase: Quiz getting failed");
+                        Log.d(TAG, "getQuizSectionsFromDatabase: Quiz getting failed");
                         listener.onFailure(error);
                         return;
                     }
@@ -257,7 +258,7 @@ public class QuizRepository {
 
                     } else {
 
-                        Log.d(TAG, "listenQuizSectionsFromDatabase: No News found");
+                        Log.d(TAG, "getQuizSectionsFromDatabase: No News found");
                         listener.onSuccess(null);
                     }
                 });
@@ -269,7 +270,7 @@ public class QuizRepository {
         if (!fromServer && quizSectionList != null && quizSectionList.size() > 0) {
 
             listener.onSuccess(quizSectionList);
-            Log.d(TAG, "listenQuizSectionsFromDatabase: Old list returned");
+            Log.d(TAG, "getQuizSectionsFromDatabase: Old list returned");
             return;
         }
 

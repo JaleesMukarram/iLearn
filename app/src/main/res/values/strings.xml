@@ -67,5 +67,47 @@
     <string name="add_option">Add Option</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
+    <string name="all_ilearn_subjects">All iLearn Subjects</string>
+    <string name="show_all">Show All</string>
+    <string name="offered_subjects">Offered Subjects</string>
+    <string name="quiz_time">Quiz Time</string>
+    <string name="resumeable">Resumeable</string>
+    <string name="total_sections">Total Sections</string>
+    <string name="total_marks">Total Marks</string>
+    <string name="attempt_now">Attempt Now</string>
+    <string name="later">Later</string>
+    <string name="total_questions">Total Questions</string>
+    <string name="submit_test">Submit Test</string>
+    <string name="number_0">0</string>
+    <string name="answered">Asnwered</string>
+    <string name="wrong">Wrong</string>
+    <string name="not_answered">Not Answered</string>
+    <string name="marked">Marked</string>
+    <string name="not_visited">Not Visited</string>
+    <string name="view">View</string>
+    <string name="view_questions">View Questions</string>
+    <string name="total_attempted_percent">Total Attempted %</string>
+    <string name="correct">Correct</string>
+    <string name="correct_percent">Correct %</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="incorrect_percent">Incorrect %</string>
+    <string name="result_analysis">Result Analysis</string>
+    <string name="total_negative">Total Negative</string>
+    <string name="accuracy">Accuracy</string>
+
+    <string name="default_score">..</string>
+    <string name="score">Score</string>
+    <string name="rank">Rank</string>
+    <string name="analysis">Analysis</string>
+    <string name="skipped">Skipped</string>
+    <string name="section_breakdown">Section Breakdown</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="submit_section">Submit Section</string>
+    <string name="accuracy_percent">Accuracy %</string>
+    <string name="total_attempted">Total Attempted</string>
+    <string name="view_result">View Result</string>
+    <string name="practice_quiz">Practice Quiz</string>
+
 
 </resources>

@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ILearn">
-        <activity android:name=".quiz.client.activities.ShowSubjects"></activity>
+        <activity android:name=".quiz.client.activities.QuizActivity"></activity>
+        <activity android:name=".quiz.client.activities.ShowQuiz" />
+        <activity android:name=".quiz.client.activities.ShowSubjects" />
         <activity android:name=".news.NewsDetails" />
         <activity android:name=".activities.HomeScreenInstructor" />
         <activity android:name=".quiz.admin.activities.AddQuestions" />

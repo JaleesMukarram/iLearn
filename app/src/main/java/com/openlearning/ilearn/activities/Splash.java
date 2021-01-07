@@ -15,15 +15,20 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.databinding.ActivitySplashBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
+import com.openlearning.ilearn.quiz.client.activities.ShowSubjects;
 import com.openlearning.ilearn.registration.User;
 import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.utils.FilePickerUtils;
 import com.openlearning.ilearn.view_models.SplashVM;
 
 import java.io.File;
+import java.util.UUID;
 
 import static com.openlearning.ilearn.registration.User.ACCOUNT_HOLDED;
 import static com.openlearning.ilearn.registration.User.STATUS_COMPLETE_REGISTERED;
@@ -44,11 +49,8 @@ public class Splash extends AppCompatActivity implements ActivityHooks {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
 
-//        FirebaseAuth.getInstance().signOut();
         callHooks();
-
     }
-
 
     @Override
     public void callHooks() {

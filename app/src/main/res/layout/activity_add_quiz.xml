@@ -7,7 +7,7 @@
 
         <variable
             name="Quiz"
-            type="com.openlearning.ilearn.quiz.modals.Quiz" />
+            type="com.openlearning.ilearn.quiz.admin.modals.Quiz" />
 
     </data>
 
@@ -122,16 +122,18 @@
                 android:id="@+id/BTNAddQuiz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
                 android:fontFamily="@font/allerta"
                 android:text="@string/add_quiz"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/ETQuizDuration" />
+                app:layout_constraintTop_toBottomOf="@+id/SWPractive" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -184,6 +186,17 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/ETQuizDescription" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/SWPractive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:checked="@{Quiz.practice}"
+                android:text="@string/practice_quiz"
+                android:theme="@style/Theme.ILearn.PrimAsSec"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/ETQuizDuration" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

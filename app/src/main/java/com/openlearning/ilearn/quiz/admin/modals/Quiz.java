@@ -6,11 +6,13 @@ import android.os.Parcelable;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 
 @IgnoreExtraProperties
-public class Quiz implements Parcelable {
+public class Quiz implements Parcelable, Serializable {
 
     public static final String PARCELABLE_KEY = "quiz_key";
     private String quizID;
@@ -19,19 +21,22 @@ public class Quiz implements Parcelable {
     private int quizDurationMin;
     private String quizSubjectID;
     private boolean active;
-    @Exclude
     private int passedTimedSeconds;
+    private List<QuizSection> quizSectionList;
+
+    private boolean practice;
 
     public Quiz() {
     }
 
-    public Quiz(String quizName, String quizDescription, int quizDurationMin, String quizSubjectID, boolean active) {
+    public Quiz(String quizName, String quizDescription, int quizDurationMin, String quizSubjectID, boolean active, boolean practice) {
         this.quizID = UUID.randomUUID().toString();
         this.quizName = quizName;
         this.quizDescription = quizDescription;
         this.quizDurationMin = quizDurationMin;
         this.quizSubjectID = quizSubjectID;
         this.active = active;
+        this.practice = practice;
     }
 
     protected Quiz(Parcel in) {
@@ -42,7 +47,8 @@ public class Quiz implements Parcelable {
         quizSubjectID = in.readString();
         active = in.readByte() != 0;
         passedTimedSeconds = in.readInt();
-
+        quizSectionList = in.createTypedArrayList(QuizSection.CREATOR);
+        practice = in.readByte() != 0;
     }
 
     public static final Creator<Quiz> CREATOR = new Creator<Quiz>() {
@@ -59,10 +65,6 @@ public class Quiz implements Parcelable {
 
     public String getQuizID() {
         return quizID;
-    }
-
-    public void setQuizID(String quizID) {
-        this.quizID = quizID;
     }
 
     public String getQuizName() {
@@ -97,6 +99,15 @@ public class Quiz implements Parcelable {
         this.quizSubjectID = quizSubjectID;
     }
 
+    public boolean isPractice() {
+        return practice;
+    }
+
+    public void setPractice(boolean practice) {
+        this.practice = practice;
+    }
+
+    @Exclude
     public int getPassedTimedSeconds() {
         return passedTimedSeconds;
     }
@@ -113,11 +124,54 @@ public class Quiz implements Parcelable {
         this.active = active;
     }
 
+    // Helping methods
     public void incrementQuizPassedTimesSeconds() {
 
         this.passedTimedSeconds++;
     }
 
+    @Exclude
+    public double getTotalMarks() {
+
+        if (quizSectionList == null) {
+            return 0;
+        }
+
+        double marks = 0;
+
+        for (QuizSection section : quizSectionList) {
+
+            marks += section.getTotalMarks();
+        }
+
+        return marks;
+    }
+
+    @Exclude
+    public int getTotalQuestions() {
+
+        if (quizSectionList == null) {
+            return 0;
+        }
+
+        int questions = 0;
+
+        for (QuizSection section : quizSectionList) {
+
+            questions += section.getTotalQuestions();
+        }
+
+        return questions;
+    }
+
+    @Exclude
+    public List<QuizSection> getQuizSectionList() {
+        return quizSectionList;
+    }
+
+    public void setQuizSectionList(List<QuizSection> quizSectionList) {
+        this.quizSectionList = quizSectionList;
+    }
 
     @Override
     public String toString() {
@@ -129,6 +183,7 @@ public class Quiz implements Parcelable {
                 ", quizSubjectID='" + quizSubjectID + '\'' +
                 ", active=" + active +
                 ", passedTimedSeconds=" + passedTimedSeconds +
+                ", quizSectionList=" + quizSectionList +
                 '}';
     }
 
@@ -146,5 +201,8 @@ public class Quiz implements Parcelable {
         dest.writeString(quizSubjectID);
         dest.writeByte((byte) (active ? 1 : 0));
         dest.writeInt(passedTimedSeconds);
+        dest.writeTypedList(quizSectionList);
+        dest.writeByte((byte) (practice ? 1 : 0));
+
     }
 }

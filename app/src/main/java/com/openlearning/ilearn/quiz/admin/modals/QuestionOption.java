@@ -31,7 +31,6 @@ public class QuestionOption implements Serializable, Parcelable {
     private String questionID;
     private boolean correct;
 
-    @Exclude
     private boolean selected;
 
     public QuestionOption() {
@@ -84,6 +83,7 @@ public class QuestionOption implements Serializable, Parcelable {
         this.correct = correct;
     }
 
+    @Exclude
     public boolean isSelected() {
         return selected;
     }
@@ -92,6 +92,16 @@ public class QuestionOption implements Serializable, Parcelable {
         this.selected = selected;
     }
 
+    @Override
+    public String toString() {
+        return "QuestionOption{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", questionID='" + questionID + '\'' +
+                ", correct=" + correct +
+                ", selected=" + selected +
+                '}';
+    }
 
     @Override
     public int describeContents() {

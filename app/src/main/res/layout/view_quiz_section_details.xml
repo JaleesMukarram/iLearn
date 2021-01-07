@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/BTNSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/submit_test"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/TVQuizSectionTotalAnsweredShowing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/number_0"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/custom_answered" />
+
+                <TextView
+                    android:id="@+id/txtWrong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/number_0"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:drawableLeftCompat="@drawable/custom_wrong" />
+
+                <TextView
+                    android:id="@+id/TVQuizSectionTotalNotAnsweredShowing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/number_0"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/custom_not_answered" />
+
+                <TextView
+                    android:id="@+id/TVQuizSectionTotalMarkedShowing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/number_0"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/marked" />
+
+                <TextView
+                    android:id="@+id/TVQuizSectionTotalNotVisitedShowing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/number_0"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/custom_not_visited" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/TVQuizSectionQuizName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/BTNSubmit"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txtAnsweredBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/answered"
+                    android:textSize="12sp"
+                    app:drawableLeftCompat="@drawable/custom_answered"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/txtWrongBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/wrong"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:drawableStartCompat="@drawable/custom_wrong" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/not_answered"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/custom_not_answered" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/marked"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/marked"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="start|center"
+                    android:text="@string/not_visited"
+                    android:textSize="12sp"
+                    app:drawableLeftCompat="@drawable/custom_not_visited" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVQuizSectionAllQuestionsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/linearBottom"
+            android:layout_below="@+id/linear"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="5" />
+
+
+    </RelativeLayout>
+</layout>

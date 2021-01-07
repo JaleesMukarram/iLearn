@@ -2,6 +2,7 @@ package com.openlearning.ilearn.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -14,6 +15,11 @@ import com.openlearning.ilearn.dialogues.AccountOptionDialogue;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
 import com.openlearning.ilearn.news.News;
 import com.openlearning.ilearn.news.NewsAdapter;
+import com.openlearning.ilearn.quiz.admin.modals.Subject;
+import com.openlearning.ilearn.quiz.client.activities.ShowSubjects;
+import com.openlearning.ilearn.quiz.client.adapters.SubjectAdapterClient;
+import com.openlearning.ilearn.quiz.client.view_models.ShowSubjectsVM;
+import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.view_models.HomeScreenVM;
 
 import java.util.ArrayList;
@@ -24,9 +30,9 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
     private static final String TAG = "HomeScreenTAG";
     private ActivityHomeScreenBinding mBinding;
     private HomeScreenVM viewModel;
-    private NewsAdapter newsAdapter;
 
     private List<News> newsList;
+    private List<Subject> subjectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +69,15 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
         mBinding.TVUserName.setOnClickListener(accountOptionsListener);
         mBinding.TVUserType.setOnClickListener(accountOptionsListener);
 
+        mBinding.TVShowAllSubjects.setOnClickListener(v -> CommonUtils.changeActivity(this, ShowSubjects.class, false));
+
     }
 
     @Override
     public void process() {
 
         mBinding.setUser(viewModel.getCurrentUser());
+
         viewModel.getNewsList().observe(this, news -> {
 
             Log.d(TAG, "init: ");
@@ -76,6 +85,15 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
             showNewsRecycler();
         });
         viewModel.getNews();
+
+        viewModel.getSubjectsList().observe(this, subjects -> {
+
+            subjectList = subjects.size() > 3 ? subjects.subList(0, 3) : subjects;
+            showSubjectRecycler();
+
+        });
+
+        viewModel.getSubjects(this, false);
 
 //        mBinding.IVAccountTypeIcon.setOnClickListener(v -> CommonUtils.changeActivity(this, AllSubjects.class, false));
 
@@ -88,7 +106,7 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
 
     private void showNewsRecycler() {
 
-        newsAdapter = new NewsAdapter(this, newsList);
+        NewsAdapter newsAdapter = new NewsAdapter(this, newsList);
         mBinding.RVAllNewsRecycler.setAdapter(newsAdapter);
 
     }
@@ -98,6 +116,13 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
         AccountOptionDialogue dialogue = new AccountOptionDialogue(this, viewModel.getCurrentUser());
         dialogue.ready();
         dialogue.show();
+
+    }
+
+    private void showSubjectRecycler() {
+
+        SubjectAdapterClient subjectAdapter = new SubjectAdapterClient(this, subjectList);
+        mBinding.RVAllSubjectsRecycler.setAdapter(subjectAdapter);
 
     }
 
