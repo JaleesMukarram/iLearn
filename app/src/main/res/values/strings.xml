@@ -108,6 +108,8 @@
     <string name="total_attempted">Total Attempted</string>
     <string name="view_result">View Result</string>
     <string name="practice_quiz">Practice Quiz</string>
+    <string name="failed_to_send">Failed to send..</string>
+    <string name="type_here">Type here</string>
 
 
 </resources>

@@ -118,7 +118,7 @@ public class FilePickerUtils implements ActivityHooks {
             mDialogue = builder.create();
             mDialogue.show();
 
-            Log.d(TAG, "showNow: images size: "+filesList.get(INDEX_FILE_IMAGES).size());
+            Log.d(TAG, "showNow: images size: " + filesList.get(INDEX_FILE_IMAGES).size());
 
         } else {
 

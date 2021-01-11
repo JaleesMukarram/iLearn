@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.activities.SendChat;
 import com.openlearning.ilearn.databinding.ActivitySplashBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
 import com.openlearning.ilearn.quiz.client.activities.ShowSubjects;
@@ -87,7 +88,7 @@ public class Splash extends AppCompatActivity implements ActivityHooks {
                     Log.d(TAG, "process: STATUS_COMPLETE_REGISTERED");
 
                     if (viewModel.getUser().getAccountType() == User.TYPE_GENERAL_USER) {
-                        CommonUtils.changeActivity(this, HomeScreen.class, true);
+                        CommonUtils.changeActivity(this, SendChat.class, true);
                     } else if (viewModel.getUser().getAccountType() == User.TYPE_INSTRUCTOR) {
                         CommonUtils.changeActivity(this, HomeScreenInstructor.class, true);
                     }

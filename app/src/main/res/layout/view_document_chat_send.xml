@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/RLGridRowSingleImageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <RelativeLayout
+            android:id="@+id/RLTopContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/bg_round_blue_border"
+            android:elevation="10dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/IVIconShowing"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/icon_description"
+                app:srcCompat="@drawable/ic_picture_as_pdf_24" />
+
+            <RelativeLayout
+                android:id="@+id/RLDocumentDownloadContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="4dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/IVDocumentDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/icon_description"
+                    app:srcCompat="@drawable/ic_arrow_downward_24"
+                    app:tint="@color/colorPrimary" />
+
+                <ProgressBar
+                    android:id="@+id/PBDocumentDownloadProgress"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/IVDocumentDownload"
+                    android:theme="@style/PrimaryAsAccent"
+                    android:visibility="visible" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/TVSelectDocument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/RLDocumentDownloadContainer"
+                android:layout_toEndOf="@+id/IVIconShowing"
+                android:padding="5dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                tools:text="File of the century"
+
+                />
+
+            <TextView
+                android:id="@+id/TVSelectDocumentSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TVSelectDocument"
+                android:layout_toEndOf="@+id/IVIconShowing"
+                android:padding="2dp"
+                android:textColor="@color/colorOrange"
+                android:textSize="14sp"
+                tools:text="1.2MB"
+
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSendOptionsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/IVMessageSentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/icon_description"
+                app:srcCompat="@drawable/ic_tick_sent" />
+
+            <TextView
+                android:id="@+id/TVMessageSentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/IVMessageSentStatus"
+                android:textColor="@color/colorBlack"
+                tools:text="20min" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLProgressContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:layout_marginTop="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/PBSendingProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="100dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:theme="@style/PrimaryAsAccent" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSendFailedOptionsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/IVMessageSentAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/icon_description"
+                app:srcCompat="@drawable/ic_resend_24" />
+
+            <TextView
+                android:id="@+id/TVSendAgainShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/IVMessageSentAgain"
+                android:text="@string/failed_to_send"
+                android:textColor="@color/colorBlack" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

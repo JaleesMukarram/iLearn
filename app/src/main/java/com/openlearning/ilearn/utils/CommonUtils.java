@@ -3,19 +3,37 @@ package com.openlearning.ilearn.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.databinding.DataBindingUtil;
+
+import com.google.firebase.BuildConfig;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.queries.FirebaseGlobals;
+import com.openlearning.ilearn.databinding.ViewFullScreenImageShowingBinding;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.dialogues.MessageDialogue;
 import com.openlearning.ilearn.interfaces.ConfirmationListener;
 import com.openlearning.ilearn.modals.StorageImage;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class CommonUtils {
@@ -145,6 +163,24 @@ public class CommonUtils {
         }
     }
 
+    public static boolean checkIfCameraPermissionIsGranted(Activity activity) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            return activity.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+
+        } else {
+
+            return true;
+
+        }
+    }
+
+    public static boolean checkIfCameraReady(Activity activity) {
+
+        return checkIfCameraPermissionIsGranted(activity) && checkIfStoragePermissionIsGranted(activity);
+    }
+
     public static void getStoragePermission(Activity activity, int requestCode) {
 
         // If device is on Marshmallow or higher
@@ -159,6 +195,23 @@ public class CommonUtils {
             }
         }
     }
+
+    public static void getCameraReady(Activity activity, int requestCode) {
+
+        // If device is on Marshmallow or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // If permission for using camera is not granted
+            if (activity.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                    activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+
+                String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                activity.requestPermissions(permissions, requestCode);
+
+            }
+        }
+    }
+
 
     public static void deleteThisStorageImage(StorageImage storageImage) {
 
@@ -185,5 +238,115 @@ public class CommonUtils {
         return (int) (dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    public static Drawable getDrawable(Context context, int resource) {
+        return ContextCompat.getDrawable(context, resource);
+
+    }
+
+    public static String getSize(long length) {
+
+        int kb = 1024;
+        int mb = kb * 1000;
+
+        if (length > mb) {
+
+            return new DecimalFormat("##.##").format(1f * length / mb) + "MB";
+        } else if (length > kb) {
+
+            return new DecimalFormat("##.##").format(1f * length / kb) + "KB";
+        } else {
+
+            return length + "B";
+        }
+
+    }
+
+    public static void openThisDocumentViaUri(Activity activity, String documentName) {
+
+        File file = new File(FirebaseGlobals.Directory.LOCAL_DOCUMENT_DIRECTORY + "/" + documentName);
+
+        Uri documentUri;
+
+        //We will need Content providers here
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+
+            documentUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", file);
+
+        }
+
+        // Else simple uri from file is enough
+        else {
+
+            documentUri = Uri.fromFile(file);
+
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        if (documentUri.toString().contains(".doc") || documentUri.toString().contains(".docx")) {
+            // Word document
+            intent.setDataAndType(documentUri, "application/msword");
+        } else if (documentUri.toString().contains(".pdf")) {
+            // PDF file
+            intent.setDataAndType(documentUri, "application/pdf");
+        } else if (documentUri.toString().contains(".ppt") || documentUri.toString().contains(".pptx")) {
+            // Powerpoint file
+            intent.setDataAndType(documentUri, "application/vnd.ms-powerpoint");
+        } else if (documentUri.toString().contains(".xls") || documentUri.toString().contains(".xlsx")) {
+            // Excel file
+            intent.setDataAndType(documentUri, "application/vnd.ms-excel");
+        } else if (documentUri.toString().contains(".zip")) {
+            // ZIP file
+            intent.setDataAndType(documentUri, "application/zip");
+        } else if (documentUri.toString().contains(".rar")) {
+            // RAR file
+            intent.setDataAndType(documentUri, "application/x-rar-compressed");
+        } else if (documentUri.toString().contains(".rtf")) {
+            // RTF file
+            intent.setDataAndType(documentUri, "application/rtf");
+        } else if (documentUri.toString().contains(".wav") || documentUri.toString().contains(".mp3")) {
+            // WAV audio file
+            intent.setDataAndType(documentUri, "audio/x-wav");
+        } else if (documentUri.toString().contains(".gif")) {
+            // GIF file
+            intent.setDataAndType(documentUri, "image/gif");
+        } else if (documentUri.toString().contains(".jpg") || documentUri.toString().contains(".jpeg") || documentUri.toString().contains(".png")) {
+            // JPG file
+            intent.setDataAndType(documentUri, "image/jpeg");
+        } else if (documentUri.toString().contains(".txt")) {
+            // Text file
+            intent.setDataAndType(documentUri, "text/plain");
+        } else if (documentUri.toString().contains(".3gp") || documentUri.toString().contains(".mpg") ||
+                documentUri.toString().contains(".mpeg") || documentUri.toString().contains(".mpe") || documentUri.toString().contains(".mp4") || documentUri.toString().contains(".avi")) {
+            // Video files
+            intent.setDataAndType(documentUri, "video/*");
+        } else {
+            intent.setDataAndType(documentUri, "*/*");
+        }
+
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+        try {
+            activity.startActivity(intent);
+
+        } catch (Exception ex) {
+
+            Toast.makeText(activity, "No app to open this file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void fullScreenImageShowingDialogue(Context context, String uri) {
+
+        ViewFullScreenImageShowingBinding mBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_full_screen_image_showing, null, false);
+        mBinding.setImageUriString(uri);
+
+        Dialog fullImageDialogue = new Dialog(context, android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
+        fullImageDialogue.setContentView(mBinding.getRoot());
+        fullImageDialogue.show();
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.openlearning.ilearn.utils;
 
+import android.net.Uri;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -17,6 +18,14 @@ public class CustomViewAdapter {
                 .resize(100, 100)
                 .into(view);
 
+
+    }
+
+    @BindingAdapter({"android:imgSrcURI"})
+    public static void setImageResource(ImageView view, String imageFile) {
+
+        Picasso.get().load(imageFile)
+                .into(view);
 
     }
 }

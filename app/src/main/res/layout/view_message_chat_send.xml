@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:id="@+id/RLTopContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_send_view"
+            android:elevation="10dp"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/TVChatMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                tools:text="Hi, How r u?" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSendOptionsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:layout_marginTop="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/IVMessageSentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/icon_description"
+                app:srcCompat="@drawable/ic_tick_sent" />
+
+            <TextView
+                android:id="@+id/TVMessageSentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/IVMessageSentStatus"
+                android:textColor="@color/colorBlack"
+                tools:text="20min" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLProgressContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:layout_marginTop="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/PBSendingProgress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:theme="@style/PrimaryAsAccent" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RLSendFailedOptionsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RLTopContainer"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/IVMessageSentAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/icon_description"
+                app:srcCompat="@drawable/ic_resend_24" />
+
+            <TextView
+                android:id="@+id/TVSendAgainShowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/IVMessageSentAgain"
+                android:text="@string/failed_to_send"
+                android:textColor="@color/colorBlack" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

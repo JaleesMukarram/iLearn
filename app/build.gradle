@@ -60,6 +60,9 @@ dependencies {
     //Picasso for images better loading and showing
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Image zoomable ImageView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 
     // For swipe up in Recycler View
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
