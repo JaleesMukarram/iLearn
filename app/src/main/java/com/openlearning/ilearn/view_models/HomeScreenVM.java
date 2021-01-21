@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel;
 import com.openlearning.ilearn.news.News;
 import com.openlearning.ilearn.news.NewsRepository;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
-import com.openlearning.ilearn.quiz.admin.repositories.SubjectRepository;
 import com.openlearning.ilearn.quiz.client.repositories.SubjectRepositoryClient;
 import com.openlearning.ilearn.registration.UserRegistration;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
@@ -48,9 +47,9 @@ public class HomeScreenVM extends ViewModel {
         return userRegistration.getCurrentUserFromDB();
     }
 
-    public void getNews() {
+    public void getNews(Activity activity) {
 
-        newsRepository.getNewsFromDatabase(true, new FireStoreObjectGetListener() {
+        newsRepository.getNewsFromDatabase(new FireStoreObjectGetListener() {
             @Override
             @SuppressWarnings("unchecked")
             public void onSuccess(@Nullable Object obj) {
@@ -64,6 +63,8 @@ public class HomeScreenVM extends ViewModel {
 
             @Override
             public void onFailure(Exception ex) {
+
+                CommonUtils.showDangerDialogue(activity, "Failed to load News\n" + ex.getLocalizedMessage());
 
             }
         });
@@ -91,6 +92,7 @@ public class HomeScreenVM extends ViewModel {
             @Override
             public void onFailure(Exception ex) {
 
+                CommonUtils.showDangerDialogue(activity, "Failed to load Subjects\n" + ex.getLocalizedMessage());
 
             }
         });

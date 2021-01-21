@@ -53,16 +53,21 @@ public class FilePickerUtils implements ActivityHooks {
     private final Activity homeScreen;
     private final int currentMode;
 
-    private final FilePickerCallback filePickerInterface;
+    private FilePickerCallback filePickerInterface;
 
 
-    public FilePickerUtils(Activity homeScreen, int currentMode, FilePickerCallback filePickerInterface) {
+    public FilePickerUtils(Activity homeScreen, int currentMode) {
 
         this.homeScreen = homeScreen;
         this.currentMode = currentMode;
-        this.filePickerInterface = filePickerInterface;
         Log.d(TAG, "FilePickerObject Created");
 
+    }
+
+    public FilePickerUtils(Activity homeScreen, int currentMode, FilePickerCallback filePickerInterface) {
+
+        this(homeScreen, currentMode);
+        this.filePickerInterface = filePickerInterface;
     }
 
     @Override
@@ -200,6 +205,10 @@ public class FilePickerUtils implements ActivityHooks {
 
     }
 
+    public void setFilePickerInterface(FilePickerCallback filePickerInterface) {
+        this.filePickerInterface = filePickerInterface;
+    }
+
     private class GridViewAdapter extends BaseAdapter {
 
         public static final int MODE_PDF = 4;
@@ -297,7 +306,7 @@ public class FilePickerUtils implements ActivityHooks {
 
             binding.TVPDFSize.setText(getSize(filesList.get(INDEX_FILE_PDF).get(position).length()));
 
-            mBinding.getRoot().setOnClickListener(view -> {
+            binding.getRoot().setOnClickListener(view -> {
 
                 filePickerInterface.onFileSelected(filesList.get(INDEX_FILE_PDF).get(position), INDEX_FILE_PDF);
                 mDialogue.cancel();

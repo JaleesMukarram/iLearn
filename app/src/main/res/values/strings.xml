@@ -17,6 +17,7 @@
     <string name="welcome_to_ilearn">Welcome to iLearn</string>
     <string name="student">Student</string>
     <string name="instructor">Instructor</string>
+    <string name="article_writer">Article Writer</string>
     <string name="share_now">Share now</string>
     <string name="news_heading">News Heading</string>
     <string name="news_title">News Title</string>
@@ -59,7 +60,6 @@
     <string name="edit_news">Edit News</string>
     <string name="add_new_news">Add New News</string>
     <string name="add_new_subject">Add New Subject</string>
-    <string name="all_quizes_of_the_subject">All Quizes of the subject</string>
     <string name="quiz_time_minutes">Quiz Time (minutes)</string>
     <string name="add_new_section">Add New Section</string>
     <string name="all_section_of_the_quiz">All Section of the quiz</string>
@@ -110,6 +110,23 @@
     <string name="practice_quiz">Practice Quiz</string>
     <string name="failed_to_send">Failed to send..</string>
     <string name="type_here">Type here</string>
+    <string name="live_chat">Live Chat</string>
+    <string name="subjects_for_articles">Subjects for Articles</string>
+    <string name="all_articles_of_the_subjects">All Articles of the subjects</string>
+    <string name="add_new_article">Add New Article</string>
+    <string name="article_name">Article Name</string>
+    <string name="article_category">Article Category</string>
+    <string name="article_section_name">Article Section Name</string>
+    <string name="article_section_content">Article Section Content</string>
+    <string name="share_amazing_articles">Share Amazing Articles</string>
+    <string name="add_article">Add Article</string>
+    <string name="add_section">Add Section</string>
+    <string name="add_sections">Add Sections</string>
+    <string name="edit_article">Edit Article</string>
+    <string name="quiz_and_articles_of_subject">Quiz and Articles of Subject</string>
+    <string name="all_articles">All Articles</string>
+    <string name="read_free_articles">Read Free Articles</string>
+    <string name="add_a_comment">Add a Comment</string>
 
 
 </resources>

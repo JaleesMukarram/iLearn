@@ -7,9 +7,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.article.adapters.ArticleAdapter;
+import com.openlearning.ilearn.article.modals.Article;
 import com.openlearning.ilearn.databinding.ActivityAllQuizBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
 import com.openlearning.ilearn.quiz.admin.adapters.QuizAdapter;
@@ -26,7 +29,7 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
     private static final String TAG = "AllQuizTAG";
     private ActivityAllQuizBinding mBinding;
     public AllQuizVM viewModel;
-    private Subject quizSubject;
+    private Subject subject;
     private List<Quiz> quizList;
 
 
@@ -50,9 +53,9 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
     @Override
     public void handleIntent() {
 
-        quizSubject = getIntent().getParcelableExtra(Subject.PARCELABLE_KEY);
+        subject = getIntent().getParcelableExtra(Subject.PARCELABLE_KEY);
 
-        if (quizSubject == null) {
+        if (subject == null) {
 
             finish();
         }
@@ -65,22 +68,25 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
         quizList = new ArrayList<>();
 
         viewModel = ViewModelProviders.of(this).get(AllQuizVM.class);
+        viewModel.initIDs(subject);
 
         mBinding.BTNAddQuiz.setOnClickListener(v -> {
 
             Intent intent = new Intent(this, AddQuiz.class);
-            intent.putExtra(Subject.PARCELABLE_KEY, quizSubject);
+            intent.putExtra(Subject.PARCELABLE_KEY, subject);
             CommonUtils.changeActivity(this, intent, false);
         });
 
-        mBinding.SRLQuizRefresh.setOnRefreshListener(() -> viewModel.getQuizOfSubject(this, true));
+        mBinding.SRLQuizRefresh.setOnRefreshListener(() -> {
+
+            viewModel.getQuizOfSubject(this, true);
+            viewModel.getAllArticleForThisSubject(this);
+        });
 
     }
 
     @Override
     public void process() {
-
-        viewModel.setSubjectID(quizSubject.getId());
 
         viewModel.getQuizList().observe(this, quizzes -> {
 
@@ -95,12 +101,27 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
 
             if (aBoolean) {
                 loaded();
-                CommonUtils.showWarningDialogue(this, "No Quiz Found. Your added Quiz will be displayed here");
                 mBinding.SRLQuizRefresh.setRefreshing(false);
             }
         });
 
+        viewModel.getArticleList().observe(this, articleList -> {
+
+            loaded();
+            showArticleRecycler(articleList);
+            mBinding.SRLQuizRefresh.setRefreshing(false);
+        });
+        viewModel.getArticleEmpty().observe(this, aBoolean -> {
+
+            if (aBoolean) {
+                loaded();
+                mBinding.SRLQuizRefresh.setRefreshing(false);
+            }
+
+        });
+
         viewModel.getQuizOfSubject(this, false);
+        viewModel.getAllArticleForThisSubject(this);
 
     }
 
@@ -113,8 +134,16 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
 
     private void showQuizRecycler() {
 
-        QuizAdapter quizAdapter = new QuizAdapter(this, quizSubject, quizList);
+        QuizAdapter quizAdapter = new QuizAdapter(this, subject, quizList);
         mBinding.RVAllQuizRecycler.setAdapter(quizAdapter);
 
     }
+
+    private void showArticleRecycler(List<Article> articleList) {
+
+        ArticleAdapter subjectAdapter = new ArticleAdapter(this, subject, articleList);
+        mBinding.RVAllArticleRecycler.setAdapter(subjectAdapter);
+
+    }
+
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.queries.FirebaseGlobals;
 import com.openlearning.ilearn.databinding.ViewSingleImageBinding;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
@@ -38,14 +39,13 @@ public class AddNewsVM extends ViewModel {
     private boolean active = true;
     private News editNews;
 
-    private final MutableLiveData<List<StorageImage>> storageImageList;
+    private List<StorageImage> storageImageList;
 
     public AddNewsVM() {
 
         newsRepository = NewsRepository.getInstance();
         userRegistration = UserRegistration.getInstance();
-        storageImageList = new MutableLiveData<>();
-        storageImageList.setValue(new ArrayList<>());
+        storageImageList = new ArrayList<>();
 
     }
 
@@ -80,18 +80,14 @@ public class AddNewsVM extends ViewModel {
 
 
         if (editNews != null) {
-            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we add your breaking News");
+            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we edit your breaking News");
 
             newsRepository.updateThisNewsIntoDatabase(news, new FirebaseSuccessListener() {
                 @Override
                 public void onSuccess(Object obj) {
 
                     loadingDialogue.cancel();
-                    String message = "News Added Successfully";
-                    if (editNews != null) {
-                        message = "News Edited Successfully";
-                    }
-                    CommonUtils.showSuccessDialogue(activity, message);
+                    CommonUtils.showSuccessDialogue(activity, "News Edited Successfully");
                 }
 
                 @Override
@@ -104,7 +100,7 @@ public class AddNewsVM extends ViewModel {
             });
 
         } else {
-            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we edit your breaking News");
+            LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we add your breaking News");
 
             newsRepository.insertNewsIntoDatabase(news, new FirebaseSuccessListener() {
 
@@ -219,33 +215,36 @@ public class AddNewsVM extends ViewModel {
             editNews.setHeading(newsHeading);
             editNews.setTitle(newsTitle);
             editNews.setBody(newsBody);
-            editNews.setStorageImageList(storageImageList.getValue());
+            editNews.setStorageImageList(storageImageList);
             editNews.setActive(active);
             return editNews;
         }
 
-        return new News(newsHeading, newsTitle, newsBody, userRegistration.getUserID(), active, storageImageList.getValue());
+        return new News(newsHeading, newsTitle, newsBody, userRegistration.getUserID(), active, storageImageList);
 
     }
 
-    public void setEditNews(News editNews) {
+    public void setEditNews(News editNews, Activity activity, LinearLayout appender) {
 
         this.editNews = editNews;
-        this.storageImageList.setValue(editNews.getStorageImageList());
-        Log.d(TAG, "setEditNews: News Added for editing");
+        this.storageImageList = editNews.getStorageImageList();
+        for (StorageImage storageImage : storageImageList) {
 
+            addNewImageView(activity, appender, storageImage);
+        }
+
+        Log.d(TAG, "setEditNews: News Added for editing");
     }
 
-    public void addNewsImageToStorage(Activity activity, File file) {
+    public void addNewsImageToStorage(Activity activity, LinearLayout appender, File file) {
 
         newsRepository.addNewsImageToDatabase(file, new FirebaseSuccessListener() {
             @Override
             public void onSuccess(Object obj) {
 
-                List<StorageImage> oldList = storageImageList.getValue();
-                assert oldList != null;
-                oldList.add((StorageImage) obj);
-                storageImageList.setValue(oldList);
+                StorageImage storageImage = (StorageImage) obj;
+                storageImageList.add(storageImage);
+                addNewImageView(activity, appender, storageImage);
                 Log.d(TAG, "onSuccess: added file to storage");
 
             }
@@ -259,30 +258,25 @@ public class AddNewsVM extends ViewModel {
         });
     }
 
-    public void updateAllImages(Activity activity, LinearLayout appender) {
+    public void addNewImageView(Activity activity, LinearLayout appender, StorageImage storageImage) {
 
-        appender.removeAllViews();
+        ViewSingleImageBinding binding = DataBindingUtil.inflate(activity.getLayoutInflater(), R.layout.view_single_image, appender, false);
 
-        for (StorageImage storageImage : Objects.requireNonNull(storageImageList.getValue())) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(12, 12, 12, 12);
+        appender.addView(binding.getRoot(), layoutParams);
 
-            ViewSingleImageBinding binding = DataBindingUtil.inflate(activity.getLayoutInflater(), R.layout.view_single_image, null, false);
+        Glide.with(activity)
+                .load(storageImage.getDownloadURL())
+                .into(binding.IVGridRowSingleImage);
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(12, 12, 12, 12);
-            appender.addView(binding.getRoot(), layoutParams);
+        binding.IVCloseIcon.setOnClickListener(v -> {
 
-            Glide.with(activity)
-                    .load(storageImage.getDownloadURL())
-                    .into(binding.IVGridRowSingleImage);
+            storageImageList.remove(storageImage);
+            appender.removeView(binding.getRoot());
+            CommonUtils.deleteThisStorageImage(storageImage);
+        });
 
-            binding.IVCloseIcon.setOnClickListener(v -> {
-
-                storageImageList.getValue().remove(storageImage);
-                appender.removeView(binding.getRoot());
-                CommonUtils.deleteThisStorageImage(storageImage);
-            });
-
-        }
     }
 
     public void deleteEditNews(Activity activity) {
@@ -306,10 +300,6 @@ public class AddNewsVM extends ViewModel {
             }
         });
 
-    }
-
-    public MutableLiveData<List<StorageImage>> getStorageImageList() {
-        return storageImageList;
     }
 
     public void setActive(boolean active) {

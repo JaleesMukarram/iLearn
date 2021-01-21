@@ -3,18 +3,21 @@ package com.openlearning.ilearn.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.firestore.ServerTimestamp;
-import com.openlearning.ilearn.modals.StorageImage;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
+import com.google.firebase.firestore.ServerTimestamp;
+import com.openlearning.ilearn.modals.PostReact;
+import com.openlearning.ilearn.modals.StorageImage;
+import com.openlearning.ilearn.modals.StorageItem;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class News implements Parcelable {
-
-    public static final int STATUS_NEWS_ACTIVE = 1;
-    public static final int STATUS_NEWS_HIDDEN = 2;
+public class News extends BaseObservable implements Parcelable, Serializable {
 
     public static final String PARCELABLE_KEY = "news_key";
 
@@ -25,6 +28,7 @@ public class News implements Parcelable {
     private String instructorID;
     private boolean active;
     private List<StorageImage> storageImageList = new ArrayList<>();
+    private List<PostReact> postReactList = new ArrayList<>();
     @ServerTimestamp
     private Date createdDate;
 
@@ -54,7 +58,9 @@ public class News implements Parcelable {
         instructorID = in.readString();
         active = in.readByte() != 0;
         storageImageList = in.createTypedArrayList(StorageImage.CREATOR);
+        postReactList = in.createTypedArrayList(PostReact.CREATOR);
         createdDate = (Date) in.readSerializable();
+
     }
 
     public static final Creator<News> CREATOR = new Creator<News>() {
@@ -73,6 +79,7 @@ public class News implements Parcelable {
         return id;
     }
 
+    @Bindable
     public String getHeading() {
         return heading;
     }
@@ -81,6 +88,7 @@ public class News implements Parcelable {
         this.heading = heading;
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
@@ -89,6 +97,7 @@ public class News implements Parcelable {
         this.title = title;
     }
 
+    @Bindable
     public String getBody() {
         return body;
     }
@@ -121,6 +130,15 @@ public class News implements Parcelable {
         this.storageImageList = storageImageList;
     }
 
+    public List<PostReact> getPostReactList() {
+        return postReactList;
+    }
+
+    public void setPostReactList(List<PostReact> postReactList) {
+        this.postReactList = postReactList;
+    }
+
+    @Bindable
     public boolean isActive() {
         return active;
     }
@@ -143,6 +161,7 @@ public class News implements Parcelable {
         dest.writeString(instructorID);
         dest.writeByte((byte) (active ? 1 : 0));
         dest.writeTypedList(storageImageList);
+        dest.writeTypedList(postReactList);
         dest.writeSerializable(createdDate);
     }
 }

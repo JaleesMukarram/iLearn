@@ -1,6 +1,5 @@
 package com.openlearning.ilearn.utils;
 
-import android.net.Uri;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;

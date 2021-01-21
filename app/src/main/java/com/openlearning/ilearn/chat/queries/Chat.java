@@ -12,6 +12,9 @@ import java.util.UUID;
 @IgnoreExtraProperties
 public class Chat implements Cloneable {
 
+    public static final String SENDING_USER_ID_KEY = "suik";
+    public static final String RECEIVING_USER_ID_KEY = "ruik";
+
     public static final int CHAT_TYPE_MESSAGE = 2;
     public static final int CHAT_TYPE_IMAGE = 4;
     public static final int CHAT_TYPE_DOCUMENTS = 8;

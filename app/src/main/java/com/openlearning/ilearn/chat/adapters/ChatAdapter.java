@@ -3,23 +3,17 @@ package com.openlearning.ilearn.chat.adapters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.chat.queries.Chat;
 import com.openlearning.ilearn.chat.queries.DocumentChat;
@@ -32,6 +26,8 @@ import com.openlearning.ilearn.databinding.ViewImageChatReceiveBinding;
 import com.openlearning.ilearn.databinding.ViewImageChatSendBinding;
 import com.openlearning.ilearn.databinding.ViewMessageChatReceiveBinding;
 import com.openlearning.ilearn.databinding.ViewMessageChatSendBinding;
+import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
+import com.openlearning.ilearn.modals.StorageDocument;
 import com.openlearning.ilearn.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
@@ -113,7 +109,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view;
 
         if (viewType == MESSAGE_CHAT_SEND) {
 
@@ -317,7 +312,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private class MessageChatReceiveView extends RecyclerView.ViewHolder {
+    private static class MessageChatReceiveView extends RecyclerView.ViewHolder {
 
         private final ViewMessageChatReceiveBinding mBinding;
 
@@ -349,11 +344,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private void setData(ImageChat chat) {
 
-            Picasso.get().load(chat.getImageUri())
-                    .resize(400, 400)
-                    .into(mBinding.IVImageChat);
+            if (chat.getImageLocalUri() != null) {
 
-            setMessageContainerListener(chat.getImageUri());
+                Picasso.get().load(chat.getImageLocalUri())
+                        .resize(400, 400)
+                        .into(mBinding.IVImageChat);
+                setMessageContainerListener(chat.getImageLocalUri());
+
+            } else if (chat.getStorageImage() != null) {
+                Picasso.get().load(chat.getStorageImage().getDownloadURL())
+                        .resize(400, 400)
+                        .into(mBinding.IVImageChat);
+                setMessageContainerListener(chat.getStorageImage().getDownloadURL());
+
+
+            }
+
 
             if (chat.isChatSent()) {
 
@@ -441,11 +447,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private void setData(ImageChat chat) {
 
-            Picasso.get().load(chat.getImageUri())
+            Picasso.get().load(chat.getStorageImage().getDownloadURL())
                     .resize(400, 400)
                     .into(mBinding.IVImageChat);
 
-            setMessageContainerListener(chat.getImageUri());
+            setMessageContainerListener(chat.getStorageImage().getDownloadURL());
 
 
             mBinding.TVMessageSentDate.setText(getRelativeDate(chat.getSentDate()));
@@ -475,11 +481,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private void setData(final DocumentChat chat) {
 
-            mBinding.TVSelectDocument.setText(chat.getDocumentName());
+            mBinding.TVSelectDocument.setText(chat.getStorageDocument().getName());
+            mBinding.TVSelectDocumentSize.setText(getSize(chat.getStorageDocument().getDocumentSize()));
 
-            mBinding.TVSelectDocumentSize.setText(getSize(chat.getDocumentSize()));
-
-            if (chat.getDocumentName().endsWith(".pdf")) {
+            if (chat.getStorageDocument().getName().endsWith(".pdf")) {
 
                 mBinding.IVIconShowing.setImageDrawable(CommonUtils.getDrawable(context, R.drawable.ic_picture_as_pdf_24));
             } else {
@@ -492,19 +497,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (chat.getReadDate() != null) {
 
                     chatRead();
-                    checkDocumentDownloadedStatus(chat.getChatID() + chat.getDocumentName(), chat.getDocumentSize());
+                    checkDocumentDownloadedStatus(chat.getStorageDocument());
                     mBinding.TVMessageSentDate.setText(getRelativeDate(chat.getSentDate()));
 
 
                 } else if (chat.getSentDate() != null) {
 
                     chatSent();
-                    checkDocumentDownloadedStatus(chat.getChatID() + chat.getDocumentName(), chat.getDocumentSize());
+                    checkDocumentDownloadedStatus(chat.getStorageDocument());
                     mBinding.TVMessageSentDate.setText(getRelativeDate(chat.getSentDate()));
 
                 } else {
 
-                    chatStillSending(chat.getProgress());
+                    chatStillSending();
                     mBinding.RLDocumentDownloadContainer.setVisibility(View.GONE);
 
                 }
@@ -548,69 +553,73 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         }
 
-
-        private void chatStillSending(int progress) {
+        private void chatStillSending() {
 
             mBinding.RLProgressContainer.setVisibility(View.VISIBLE);
             mBinding.RLSendOptionsContainer.setVisibility(View.INVISIBLE);
             mBinding.RLSendFailedOptionsContainer.setVisibility(View.INVISIBLE);
             mBinding.RLDocumentDownloadContainer.setVisibility(View.GONE);
 
-            mBinding.PBSendingProgress.setProgress(progress);
 
         }
 
         // Document Download Handling
-        private void checkDocumentDownloadedStatus(String documentName, long documentSize) {
+        private void checkDocumentDownloadedStatus(StorageDocument storageDocument) {
 
-//            if (validateThisDocumentInStorage(documentName, documentSize)) {
-//
-//                hideDownloadBox(documentName);
-//
-//            } else {
-//
-//                showDownloadBox(documentName);
-//            }
-//
+            if (CommonUtils.validateThisDocumentInStorage(storageDocument.getName(), storageDocument.getDocumentSize()) || storageDocument.getDocumentLocalUri() != null) {
+
+                hideDownloadBox(storageDocument);
+
+            } else {
+
+                showDownloadBox(storageDocument);
+            }
+
 
         }
 
-        private void hideDownloadBox(final String documentName) {
+        private void hideDownloadBox(final StorageDocument storageDocument) {
 
             Log.d(TAG, "Download box hidden");
 
             mBinding.RLDocumentDownloadContainer.setVisibility(View.GONE);
 
-            mBinding.RLTopContainer.setOnClickListener(view -> openThisDocumentViaUri((Activity) context, documentName));
+            mBinding.RLTopContainer.setOnClickListener(view -> {
+
+                if (storageDocument.getDocumentLocalUri() != null) {
+
+                    openThisDocumentViaUri((Activity) context, Uri.parse(storageDocument.getDocumentLocalUri()));
+
+
+                } else {
+                    openThisDocumentViaUri((Activity) context, storageDocument.getName());
+                }
+            });
 
         }
 
-        private void showDownloadBox(final String documentName) {
+        private void showDownloadBox(final StorageDocument storageDocument) {
 
             mBinding.RLTopContainer.setOnClickListener(null);
             mBinding.RLDocumentDownloadContainer.setVisibility(View.VISIBLE);
             mBinding.PBDocumentDownloadProgress.setVisibility(View.INVISIBLE);
 
-            mBinding.IVDocumentDownload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            mBinding.IVDocumentDownload.setOnClickListener(view -> {
 
-                    mBinding.IVDocumentDownload.setOnClickListener(null);
-                    mBinding.PBDocumentDownloadProgress.setVisibility(View.VISIBLE);
+                mBinding.IVDocumentDownload.setOnClickListener(null);
+                mBinding.PBDocumentDownloadProgress.setVisibility(View.VISIBLE);
 
-                    downloadThisDocumentAndStoreToLocalStorage(documentName);
-                }
-
+                downloadThisDocumentAndStoreToLocalStorage(storageDocument);
             });
 
         }
 
-        private void downloadThisDocumentAndStoreToLocalStorage(final String documentName) {
+        private void downloadThisDocumentAndStoreToLocalStorage(final StorageDocument storageDocument) {
 
             //If directory is created or is available
             if (FirebaseGlobals.makeDocumentDirectory()) {
 
-                String documentDirectory = "/" + documentName;
+                String documentDirectory = "/" + storageDocument.getName();
 
                 File file = new File(FirebaseGlobals.Directory.LOCAL_DOCUMENT_DIRECTORY + documentDirectory);
 
@@ -618,45 +627,35 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     if (file.createNewFile()) {
 
-                        StorageReference reference = FirebaseStorage.getInstance().getReference(FirebaseGlobals.Storage.DOCUMENT_STORAGE_REFERENCE + documentDirectory);
-
-                        reference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        CommonUtils.downloadThisStorageItem(storageDocument, file, new FirebaseSuccessListener() {
                             @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            public void onSuccess(Object obj) {
 
-                                hideDownloadBox(documentName);
-                                CommonUtils.openThisDocumentViaUri((Activity) context, documentName);
-                                Toast.makeText(context, "File Downloaded..", Toast.LENGTH_SHORT).show();
+                                hideDownloadBox(storageDocument);
+                                openThisDocumentViaUri((Activity) context, storageDocument.getName());
+                            }
+
+                            @Override
+                            public void onFailure(Exception ex) {
+
+                                showDownloadBox(storageDocument);
+                                Toast.makeText(context, "Error downloading " + storageDocument.getName() + " " + ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                             }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
+                        });
 
-                                        Toast.makeText(context, "Error while downloading file", Toast.LENGTH_SHORT).show();
-                                        showDownloadBox(documentName);
-                                        Log.d(TAG, "Failed downloading file: " + e);
+                    } else {
 
-                                    }
-                                })
-
-                                .addOnCanceledListener(new OnCanceledListener() {
-                                    @Override
-                                    public void onCanceled() {
-
-                                        showDownloadBox(documentName);
-                                        Toast.makeText(context, "Error while downloading file", Toast.LENGTH_SHORT).show();
-                                        Log.d(TAG, "Canceled");
-
-                                    }
-                                });
-
+                        throw new IOException();
 
                     }
+
                 } catch (IOException e) {
 
                     Log.d(TAG, "File not made: " + e.toString());
+                    Log.d(TAG, "Directory not made");
+                    Toast.makeText(context, "Error while making documents file. check storage permissions", Toast.LENGTH_SHORT).show();
+                    showDownloadBox(storageDocument);
 
                 }
 
@@ -666,7 +665,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 Log.d(TAG, "Directory not made");
                 Toast.makeText(context, "Error while making documents directory. check storage permissions", Toast.LENGTH_SHORT).show();
-                showDownloadBox(documentName);
+                showDownloadBox(storageDocument);
             }
         }
 
@@ -690,47 +689,47 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private void setData(final DocumentChat chat) {
 
-            mBinding.TVSelectDocument.setText(chat.getDocumentName());
-            mBinding.TVSelectDocumentSize.setText(getSize(chat.getDocumentSize()));
+            mBinding.TVSelectDocument.setText(chat.getStorageDocument().getName());
+            mBinding.TVSelectDocumentSize.setText(getSize(chat.getStorageDocument().getDocumentSize()));
             mBinding.TVMessageSentDate.setText(getRelativeDate(chat.getSentDate()));
 
-            if (chat.getDocumentName().endsWith(".pdf")) {
+            if (chat.getStorageDocument().getName().endsWith(".pdf")) {
 
                 mBinding.IVIconShowing.setImageDrawable(CommonUtils.getDrawable(context, R.drawable.ic_picture_as_pdf_24));
             } else {
                 mBinding.IVIconShowing.setImageDrawable(CommonUtils.getDrawable(context, R.drawable.ic_file_24));
             }
 
-            checkDocumentDownloadedStatus(chat.getChatID() + chat.getDocumentName(), chat.getDocumentSize());
+            checkDocumentDownloadedStatus(chat.getStorageDocument());
 
 
         }
 
         // Document Download Handling
-        private void checkDocumentDownloadedStatus(String documentName, long documentSize) {
+        private void checkDocumentDownloadedStatus(StorageDocument storageDocument) {
 
-//            if (validateThisDocumentInStorage(documentName, documentSize)) {
-//
-//                hideDownloadBox(documentName);
-//
-//            } else {
-//
-//                showDownloadBox(documentName);
-//            }
+            if (CommonUtils.validateThisDocumentInStorage(storageDocument.getName(), storageDocument.getDocumentSize())) {
+
+                hideDownloadBox(storageDocument);
+
+            } else {
+
+                showDownloadBox(storageDocument);
+            }
 
         }
 
-        private void hideDownloadBox(final String documentName) {
+        private void hideDownloadBox(final StorageDocument storageDocument) {
 
             Log.d(TAG, "Download box hidden");
 
             mBinding.RLDocumentDownloadContainer.setVisibility(View.GONE);
 
-            mBinding.RLTopContainer.setOnClickListener(view -> openThisDocumentViaUri((Activity) context, documentName));
+            mBinding.RLTopContainer.setOnClickListener(view -> openThisDocumentViaUri((Activity) context, storageDocument.getName()));
 
         }
 
-        private void showDownloadBox(final String documentName) {
+        private void showDownloadBox(final StorageDocument storageDocument) {
 
             Log.d(TAG, "Box Shown for downloading");
 
@@ -743,17 +742,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mBinding.IVDocumentDownload.setOnClickListener(null);
                 mBinding.PBDocumentDownloadProgress.setVisibility(View.VISIBLE);
 
-                downloadThisDocumentAndStoreToLocalStorage(documentName);
+                downloadThisDocumentAndStoreToLocalStorage(storageDocument);
             });
 
         }
 
-        private void downloadThisDocumentAndStoreToLocalStorage(final String documentName) {
+        private void downloadThisDocumentAndStoreToLocalStorage(final StorageDocument storageDocument) {
 
             //If directory is created or is available
             if (FirebaseGlobals.makeDocumentDirectory()) {
 
-                String documentDirectory = "/" + documentName;
+                String documentDirectory = "/" + storageDocument.getName();
 
                 File file = new File(FirebaseGlobals.Directory.LOCAL_DOCUMENT_DIRECTORY + documentDirectory);
 
@@ -761,36 +760,35 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     if (file.createNewFile()) {
 
-                        StorageReference reference = FirebaseStorage.getInstance().getReference(FirebaseGlobals.Storage.DOCUMENT_STORAGE_REFERENCE + documentDirectory);
+                        CommonUtils.downloadThisStorageItem(storageDocument, file, new FirebaseSuccessListener() {
+                            @Override
+                            public void onSuccess(Object obj) {
 
-                        reference.getFile(file).addOnSuccessListener(taskSnapshot -> {
+                                hideDownloadBox(storageDocument);
+                                openThisDocumentViaUri((Activity) context, storageDocument.getName());
+                            }
 
-                            hideDownloadBox(documentName);
-                            openThisDocumentViaUri((Activity) context, documentName);
-                            Toast.makeText(context, "File Downloaded..", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Exception ex) {
 
-                        })
-                                .addOnFailureListener(e -> {
+                                showDownloadBox(storageDocument);
+                                Toast.makeText(context, "Error downloading " + storageDocument.getName() + " " + ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(context, "Error while downloading file", Toast.LENGTH_SHORT).show();
-                                    showDownloadBox(documentName);
-                                    Log.d(TAG, "Failed downloading file: " + e);
+                            }
+                        });
 
-                                })
+                    } else {
 
-                                .addOnCanceledListener(() -> {
-
-                                    showDownloadBox(documentName);
-                                    Toast.makeText(context, "Error while downloading file", Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, "Canceled");
-
-                                });
-
+                        throw new IOException();
 
                     }
+
                 } catch (IOException e) {
 
                     Log.d(TAG, "File not made: " + e.toString());
+                    Log.d(TAG, "Directory not made");
+                    Toast.makeText(context, "Error while making documents file. check storage permissions", Toast.LENGTH_SHORT).show();
+                    showDownloadBox(storageDocument);
 
                 }
 
@@ -800,7 +798,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 Log.d(TAG, "Directory not made");
                 Toast.makeText(context, "Error while making documents directory. check storage permissions", Toast.LENGTH_SHORT).show();
-                showDownloadBox(documentName);
+                showDownloadBox(storageDocument);
             }
         }
 

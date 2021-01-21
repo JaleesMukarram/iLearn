@@ -9,16 +9,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ILearn">
-        <activity android:name=".chat.activities.SendChat"></activity>
+        <activity android:name=".article.activities.ArticleDetails"></activity>
+        <activity android:name=".article.activities.AddSubjectArticle" />
+        <activity android:name=".article.activities.AllSubjectsArticles" />
+        <activity android:name=".activities.HomeScreenArticleWriter" />
+        <activity android:name=".chat.activities.SendChat" />
         <activity android:name=".quiz.client.activities.QuizActivity" />
         <activity android:name=".quiz.client.activities.ShowQuiz" />
         <activity android:name=".quiz.client.activities.ShowSubjects" />
@@ -48,6 +53,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/storage_provider_path" />
+        </provider>
     </application>
 
 </manifest>

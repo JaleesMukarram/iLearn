@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.article.activities.AllSubjectsArticles;
 import com.openlearning.ilearn.databinding.ViewSingleSubjectClientBinding;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.quiz.client.activities.ShowQuiz;
@@ -22,13 +23,17 @@ import java.util.List;
 
 public class SubjectAdapterClient extends RecyclerView.Adapter<SubjectAdapterClient.NewsViewHolder> {
 
-    private static final String TAG = "SubjAdrClientTAG";
+    public static final int FOR_STUDENT = 1;
+    public static final int FOR_ARTICLE_WRITER = 2;
+
     private final Context context;
     private final List<Subject> subjectList;
+    private final int currentFor;
 
-    public SubjectAdapterClient(Context context, List<Subject> subjectList) {
+    public SubjectAdapterClient(Context context, List<Subject> subjectList, int currentFor) {
         this.context = context;
         this.subjectList = subjectList;
+        this.currentFor = currentFor;
     }
 
     @NonNull
@@ -68,12 +73,11 @@ public class SubjectAdapterClient extends RecyclerView.Adapter<SubjectAdapterCli
             mBinding.setSubject(subjectList.get(position));
             mBinding.getRoot().setOnClickListener(v -> {
 
-                Intent intent = new Intent(context, ShowQuiz.class);
+                final Intent intent = new Intent(context, currentFor == FOR_STUDENT ? ShowQuiz.class : AllSubjectsArticles.class);
                 intent.putExtra(Subject.PARCELABLE_KEY, subjectList.get(position));
                 CommonUtils.changeActivity((Activity) context, intent, false);
 
             });
-
         }
     }
 }

@@ -88,9 +88,11 @@ public class Splash extends AppCompatActivity implements ActivityHooks {
                     Log.d(TAG, "process: STATUS_COMPLETE_REGISTERED");
 
                     if (viewModel.getUser().getAccountType() == User.TYPE_GENERAL_USER) {
-                        CommonUtils.changeActivity(this, SendChat.class, true);
+                        CommonUtils.changeActivity(this, HomeScreen.class, true);
                     } else if (viewModel.getUser().getAccountType() == User.TYPE_INSTRUCTOR) {
                         CommonUtils.changeActivity(this, HomeScreenInstructor.class, true);
+                    } else if (viewModel.getUser().getAccountType() == User.TYPE_ARTICLE_WRITER) {
+                        CommonUtils.changeActivity(this, HomeScreenArticleWriter.class, true);
                     }
 
                     break;
@@ -187,6 +189,7 @@ public class Splash extends AppCompatActivity implements ActivityHooks {
 
                         view.setAlpha(1f);
                         isThreadCompleted = true;
+                        mBinding.PBRLoading.setVisibility(View.VISIBLE);
                         if (pendingChange) {
                             CommonUtils.changeActivity(Splash.this, SignIn.class, true);
                         }

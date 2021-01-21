@@ -260,6 +260,11 @@ public class UserRegistration {
         return mUserDatabase.getCurrentDBUser();
     }
 
+    public void getNameOfThisUser(String id, FirebaseSuccessListener listener) {
+
+        mUserDatabase.getNameOfUserWithId(id, listener);
+    }
+
     // State Operations
     private void sendAuthStates() {
 
@@ -335,4 +340,5 @@ public class UserRegistration {
 
         });
     }
+
 }

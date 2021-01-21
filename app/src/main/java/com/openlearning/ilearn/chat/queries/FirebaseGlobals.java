@@ -7,7 +7,6 @@ import android.os.Environment;
 import java.io.File;
 
 
-
 public class FirebaseGlobals {
 
     private static final String CHAT_REFERENCE = "CHAT_REFERENCE/";
@@ -93,7 +92,7 @@ public class FirebaseGlobals {
 
     public static class Directory {
 
-        public static final String APP_FOLDER_NAME = "OMEGE ePathshala";
+        public static final String APP_FOLDER_NAME = "iLearn";
         public static final String IMAGE_FOLDER = "Images";
         public static final String DOCUMENT_FOLDER = "Documents";
 

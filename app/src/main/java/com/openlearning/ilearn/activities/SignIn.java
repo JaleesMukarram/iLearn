@@ -44,9 +44,7 @@ public class SignIn extends AppCompatActivity implements ActivityHooks {
 
         viewModel = ViewModelProviders.of(this).get(SignInVM.class);
 
-        mBinding.TVSignUpInstead.setOnClickListener(v -> {
-            startActivity(new Intent(SignIn.this, SignUp.class));
-        });
+        mBinding.TVSignUpInstead.setOnClickListener(v -> startActivity(new Intent(SignIn.this, SignUp.class)));
         mBinding.BTNSignIn.setOnClickListener(v -> viewModel.validateUser(this, mBinding.ETEmail.getText().toString().trim(), mBinding.ETPassword.getText().toString().trim()));
 
     }

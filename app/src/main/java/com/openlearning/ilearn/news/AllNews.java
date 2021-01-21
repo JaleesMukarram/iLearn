@@ -75,6 +75,7 @@ public class AllNews extends AppCompatActivity implements ActivityHooks {
                 loaded();
                 CommonUtils.showWarningDialogue(this, "No News Found. Your added News will be displayed here");
                 mBinding.SRLNewsRefresh.setRefreshing(false);
+                mBinding.RVAllNewsRecycler.setAdapter(null);
 
             }
 
@@ -91,11 +92,19 @@ public class AllNews extends AppCompatActivity implements ActivityHooks {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (newsList.isEmpty()) {
+            viewModel.getNews(this, true);
+        }
+    }
+
     private void showNewsRecycler() {
 
         NewsAdapterAdmin newsAdapterAdmin = new NewsAdapterAdmin(this, newsList);
         mBinding.RVAllNewsRecycler.setAdapter(newsAdapterAdmin);
 
     }
-
 }

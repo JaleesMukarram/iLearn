@@ -20,7 +20,7 @@ public class User extends BaseObservable {
 
     public static final int TYPE_GENERAL_USER = 1;
     public static final int TYPE_INSTRUCTOR = 2;
-    public static final int TYPE_ADMINISTRATOR = 4;
+    public static final int TYPE_ARTICLE_WRITER = 4;
 
     private String id;
     private String name;

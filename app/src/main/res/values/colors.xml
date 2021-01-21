@@ -85,6 +85,7 @@
     <color name="colorGrayDark">#b3b3b3</color>
     <color name="colorGrayLight">#ebebeb</color>
     <color name="colorGrayText">#757575</color>
+    <color name="colorGrayTextLight">#979797</color>
     <color name="colorGrayTextDark">#595858</color>
 
     <color name="colorGrayLightMax">#ECECEC</color>

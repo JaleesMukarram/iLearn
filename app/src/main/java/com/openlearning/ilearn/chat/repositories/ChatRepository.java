@@ -22,6 +22,8 @@ import com.openlearning.ilearn.chat.queries.ImageChat;
 import com.openlearning.ilearn.chat.queries.MessageChat;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
+import com.openlearning.ilearn.modals.StorageDocument;
+import com.openlearning.ilearn.modals.StorageImage;
 import com.openlearning.ilearn.utils.StorageUploadTask;
 
 import java.io.File;
@@ -32,6 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static com.openlearning.ilearn.chat.queries.FirebaseGlobals.Storage.DOCUMENT_STORAGE_REFERENCE;
+import static com.openlearning.ilearn.chat.queries.FirebaseGlobals.Storage.IMAGE_STORAGE_REFERENCE;
 
 public class ChatRepository {
 
@@ -76,15 +81,15 @@ public class ChatRepository {
                 });
     }
 
-    public void uploadThisImageChatToDatabase(final ImageChat imageChat, File file, FirebaseSuccessListener listener) {
+    public void uploadThisImageChatToDatabase(final ImageChat imageChat, Uri uri, FirebaseSuccessListener listener) {
 
         Log.d(TAG, "uploadThisImageChatToDatabase: started upload image to storage: " + imageChat.getChatID());
 
-        addNewImageToDatabase(file, new FirebaseSuccessListener() {
+        addNewItemToDatabase(uri, UUID.randomUUID().toString(), StorageImage.class, new FirebaseSuccessListener() {
             @Override
             public void onSuccess(Object obj) {
 
-                imageChat.setImageUri((String) obj);
+                imageChat.setStorageImage((StorageImage) obj);
 
                 DatabaseReference databaseReference = db.getReference(FirebaseGlobals.Database.QUERY_CHAT_REFERENCE);
 
@@ -115,6 +120,48 @@ public class ChatRepository {
         });
 
     }
+
+    public void uploadThisDocumentChatToDatabase(final DocumentChat documentChat, File file, FirebaseSuccessListener listener) {
+
+        Log.d(TAG, "uploadThisDocumentChatToDatabase: started upload image to storage: " + documentChat.getChatID());
+
+        addNewItemToDatabase(Uri.fromFile(file), documentChat.getStorageDocument().getName(), StorageDocument.class, new FirebaseSuccessListener() {
+            @Override
+            public void onSuccess(Object obj) {
+
+                StorageDocument newDocument = (StorageDocument) obj;
+                documentChat.getStorageDocument().saveDatabaseValues(newDocument);
+
+                DatabaseReference databaseReference = db.getReference(FirebaseGlobals.Database.QUERY_CHAT_REFERENCE);
+
+                Log.d(TAG, "uploadThisDocumentChatToDatabase: started uploading chat to database: " + documentChat.getChatID());
+
+                databaseReference.child(String.valueOf(documentChat.getChatID())).setValue(documentChat)
+                        .addOnCompleteListener(task -> {
+
+                            if (!task.isSuccessful()) {
+
+                                listener.onFailure(task.getException());
+                                Log.d(TAG, "uploadThisDocumentChatToDatabase: failed: " + task.getException());
+                                return;
+                            }
+
+                            Log.d(TAG, "uploadThisDocumentChatToDatabase: uploaded: " + documentChat.getChatID());
+                            listener.onSuccess(documentChat);
+
+                        });
+
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+                listener.onFailure(ex);
+            }
+        });
+
+    }
+
 
     public void getAllChatsFromDatabase(FireStoreObjectGetListener listener) {
 
@@ -283,7 +330,7 @@ public class ChatRepository {
             if (chatID.equals(chatList.get(i).getChatID())) {
 
                 chatList.set(i, imageChat);
-                Log.d(TAG, imageChat.getImageUri() + " is updated successfully");
+                Log.d(TAG, imageChat.getStorageImage().getName() + " is updated successfully");
                 break;
             }
         }
@@ -303,7 +350,7 @@ public class ChatRepository {
             if (chatID.equals(chatList.get(i).getChatID())) {
 
                 chatList.set(i, documentChat);
-                Log.d(TAG, documentChat.getDocumentName() + " is updated successfully");
+                Log.d(TAG, documentChat.getStorageDocument().getName() + " is updated successfully");
                 break;
             }
         }
@@ -375,10 +422,11 @@ public class ChatRepository {
     }
 
     // Storage
-    private void addNewImageToDatabase(File file, FirebaseSuccessListener listener) {
+    private void addNewItemToDatabase(Uri uri, String fileName, Class<?> returningClass, FirebaseSuccessListener listener) {
 
-        final StorageReference storageReference = FirebaseStorage.getInstance().getReference(FirebaseGlobals.Storage.IMAGE_STORAGE_REFERENCE);
-        StorageUploadTask storageUploadTask = new StorageUploadTask(storageReference, UUID.randomUUID().toString() + ".jpg", Uri.fromFile(file));
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference(returningClass == StorageImage.class ? IMAGE_STORAGE_REFERENCE : DOCUMENT_STORAGE_REFERENCE);
+
+        StorageUploadTask storageUploadTask = new StorageUploadTask(storageReference, fileName, uri, returningClass);
         storageUploadTask.setListener(listener);
 
     }

@@ -10,11 +10,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.chat.queries.Chat;
+import com.openlearning.ilearn.chat.queries.DocumentChat;
 import com.openlearning.ilearn.chat.queries.ImageChat;
 import com.openlearning.ilearn.chat.queries.MessageChat;
 import com.openlearning.ilearn.chat.repositories.ChatRepository;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
+import com.openlearning.ilearn.modals.StorageDocument;
 import com.openlearning.ilearn.registration.UserRegistration;
 
 import java.io.File;
@@ -28,6 +30,7 @@ public class SendChatVM extends ViewModel {
     private static final String TAG = "SendChatVMTAG";
     private final UserRegistration userRegistration;
     private ChatRepository chatRepository;
+    private MutableLiveData<String> receivingUserName;
 
     private String SENDING_USER;
     private String RECEIVING_USER;
@@ -38,17 +41,35 @@ public class SendChatVM extends ViewModel {
     public SendChatVM() {
 
         userRegistration = UserRegistration.getInstance();
+        receivingUserName = new MutableLiveData<>();
         chatList = new MutableLiveData<>();
         chatList.setValue(new ArrayList<>());
     }
 
-    public void initIDs(String SENDING_USER, String RECEIVING_USER) {
+    public String initIDs(String RECEIVING_USER) {
 
-        this.SENDING_USER = SENDING_USER;
         this.RECEIVING_USER = RECEIVING_USER;
-
+        SENDING_USER = userRegistration.getUserID();
         chatRepository = new ChatRepository(SENDING_USER, RECEIVING_USER);
+        return SENDING_USER;
 
+    }
+
+    public void getNameFromDb() {
+
+        userRegistration.getNameOfThisUser(RECEIVING_USER, new FirebaseSuccessListener() {
+            @Override
+            public void onSuccess(Object obj) {
+
+                receivingUserName.setValue((String) obj);
+
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+            }
+        });
     }
 
     // Handling Chats
@@ -90,14 +111,14 @@ public class SendChatVM extends ViewModel {
         }
     }
 
-    public void handleNewImageChat(File file) {
+    public void handleNewImageChat(Uri uri) {
 
-        ImageChat imageChat = new ImageChat(SENDING_USER, RECEIVING_USER, Uri.fromFile(file).toString());
+        ImageChat imageChat = new ImageChat(SENDING_USER, RECEIVING_USER, uri.toString());
 
         addThisIntoChatList(imageChat);
         chatRepository.setFirstMessageSent(true);
 
-        chatRepository.uploadThisImageChatToDatabase(imageChat, file, new FirebaseSuccessListener() {
+        chatRepository.uploadThisImageChatToDatabase(imageChat, uri, new FirebaseSuccessListener() {
 
             @Override
             public void onSuccess(Object obj) {
@@ -108,10 +129,42 @@ public class SendChatVM extends ViewModel {
             @Override
             public void onFailure(Exception ex) {
 
+                Log.d(TAG, "onFailure: " + ex);
+
                 setThisChatAsFailed(imageChat.getChatID());
 
             }
         });
+    }
+
+    public void handleNewDocumentChat(File file) {
+
+        StorageDocument storageDocument = new StorageDocument(file.getName(), null, null, file.length(), Uri.fromFile(file).toString());
+
+        DocumentChat documentChat = new DocumentChat(SENDING_USER, RECEIVING_USER, storageDocument);
+        addThisIntoChatList(documentChat);
+
+        chatRepository.setFirstMessageSent(true);
+
+        chatRepository.uploadThisDocumentChatToDatabase(documentChat, file, new FirebaseSuccessListener() {
+
+            @Override
+            public void onSuccess(Object obj) {
+
+                setThisChatAsSent(documentChat.getChatID(), documentChat.getTypedDate());
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+                Log.d(TAG, "onFailure: " + ex);
+
+                setThisChatAsFailed(documentChat.getChatID());
+
+            }
+        });
+
+
     }
 
     // Chat Options
@@ -179,5 +232,12 @@ public class SendChatVM extends ViewModel {
     // Mutable
     public MutableLiveData<List<Chat>> getChatList() {
         return chatList;
+    }
+
+    public MutableLiveData<String> getReceivingUserName() {
+
+        getNameFromDb();
+        return receivingUserName;
+
     }
 }

@@ -3,6 +3,7 @@ package com.openlearning.ilearn.news;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -67,7 +68,7 @@ public class NewsAdapterAdmin extends RecyclerView.Adapter<NewsAdapterAdmin.News
             mBinding.getRoot().setOnClickListener(v -> {
 
                 Intent intent = new Intent(context, AddNews.class);
-                intent.putExtra(News.PARCELABLE_KEY, newsList.get(position));
+                intent.putExtra(News.PARCELABLE_KEY, (Parcelable) newsList.get(position));
                 CommonUtils.changeActivity((Activity) context, intent, false);
 
             });

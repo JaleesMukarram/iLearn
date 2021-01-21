@@ -13,6 +13,7 @@ import com.openlearning.ilearn.databinding.ActivityCompleteRegistrationBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
 import com.openlearning.ilearn.view_models.CompleteRegistrationVM;
 
+import static com.openlearning.ilearn.registration.User.TYPE_ARTICLE_WRITER;
 import static com.openlearning.ilearn.registration.User.TYPE_GENERAL_USER;
 import static com.openlearning.ilearn.registration.User.TYPE_INSTRUCTOR;
 
@@ -20,11 +21,12 @@ public class CompleteRegistration extends AppCompatActivity implements ActivityH
 
     ActivityCompleteRegistrationBinding mBinding;
     CompleteRegistrationVM viewModel;
+    private int currentTypeIndex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         callHooks();
 
@@ -51,9 +53,9 @@ public class CompleteRegistration extends AppCompatActivity implements ActivityH
 
         firstUserTypeSelected();
 
-        mBinding.IVLeft.setOnClickListener(v -> firstUserTypeSelected());
+        mBinding.IVLeft.setOnClickListener(v -> onTypeIndexChanged(false));
 
-        mBinding.IVRight.setOnClickListener(v -> secondUserTypeSelected());
+        mBinding.IVRight.setOnClickListener(v -> onTypeIndexChanged(true));
 
         mBinding.BTNFinish.setOnClickListener(v -> viewModel.validateName(this, mBinding.ETName.getText().toString().trim()));
 
@@ -71,6 +73,22 @@ public class CompleteRegistration extends AppCompatActivity implements ActivityH
 
     }
 
+    private void onTypeIndexChanged(boolean next) {
+
+        currentTypeIndex = next ? currentTypeIndex + 1 : currentTypeIndex - 1;
+
+        if (currentTypeIndex == 0) {
+
+            firstUserTypeSelected();
+        } else if (currentTypeIndex == 1) {
+
+            secondUserTypeSelected();
+        } else if (currentTypeIndex == 2) {
+
+            thirdUserTypeSelected();
+        }
+    }
+
     private void firstUserTypeSelected() {
 
         mBinding.IVLeft.setVisibility(View.GONE);
@@ -86,8 +104,8 @@ public class CompleteRegistration extends AppCompatActivity implements ActivityH
 
     private void secondUserTypeSelected() {
 
-        mBinding.IVRight.setVisibility(View.GONE);
         mBinding.IVLeft.setVisibility(View.VISIBLE);
+        mBinding.IVRight.setVisibility(View.VISIBLE);
 
         mBinding.IVAccountType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_instructor));
         mBinding.TVAccountType.setText(R.string.instructor);
@@ -96,4 +114,17 @@ public class CompleteRegistration extends AppCompatActivity implements ActivityH
 
 
     }
+
+    private void thirdUserTypeSelected() {
+
+        mBinding.IVLeft.setVisibility(View.VISIBLE);
+        mBinding.IVRight.setVisibility(View.GONE);
+
+        mBinding.IVAccountType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_content_writing));
+        mBinding.TVAccountType.setText(R.string.article_writer);
+
+        viewModel.setUserType(TYPE_ARTICLE_WRITER);
+
+    }
+
 }

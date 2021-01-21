@@ -73,7 +73,7 @@ public class AddNews extends AppCompatActivity implements ActivityHooks {
 
         filePickerUtils = new FilePickerUtils(this, FilePickerUtils.MODE_IMAGES_ONLY, (file, type) -> {
 
-            viewModel.addNewsImageToStorage(this, file);
+            viewModel.addNewsImageToStorage(this, mBinding.LLImageAppender, file);
             Toast.makeText(this, file.getName() + " is uploading...", Toast.LENGTH_SHORT).show();
 
         });
@@ -87,27 +87,11 @@ public class AddNews extends AppCompatActivity implements ActivityHooks {
 
         if (editNews != null) {
 
-            viewModel.setEditNews(editNews);
+            viewModel.setEditNews(editNews, this, mBinding.LLImageAppender);
             mBinding.setEditNews(editNews);
             viewModel.setActive(editNews.isActive());
             mBinding.BTNAddNews.setText(R.string.edit_news);
         }
-
-        viewModel.getStorageImageList().observe(this, storageImages -> {
-
-            Log.d(TAG, "Storage Image list size: " + storageImages.size());
-            if (storageImages.size() > 0) {
-
-                for (StorageImage storageImage : storageImages) {
-
-                    Log.d(TAG, storageImage.toString());
-                }
-
-            }
-
-            viewModel.updateAllImages(this, mBinding.LLImageAppender);
-        });
-
     }
 
     @Override

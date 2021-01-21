@@ -19,7 +19,6 @@ public class CompleteRegistrationVM extends ViewModel {
 
     private static final String TAG = "ComRegVM";
     private final UserRegistration userRegistration;
-    private LoadingDialogue loadingDialogue;
     private int userType;
 
     public CompleteRegistrationVM() {
@@ -36,7 +35,7 @@ public class CompleteRegistrationVM extends ViewModel {
             return;
         }
 
-        showLoadingDialogue(activity);
+        LoadingDialogue loadingDialogue = CommonUtils.showLoadingDialogue(activity, "Please wait...", "Please wait while we save your account details");
         userRegistration.insertCurrentUserIntoDatabase(name, userType);
         userRegistration.setTotalStateListener(new AuthStateRequestListener() {
             @Override
@@ -52,6 +51,8 @@ public class CompleteRegistrationVM extends ViewModel {
                         CommonUtils.changeActivity(activity, HomeScreen.class, true);
                     } else if (user.getAccountType() == User.TYPE_INSTRUCTOR) {
                         CommonUtils.changeActivity(activity, HomeScreenInstructor.class, true);
+                    } else {
+                        CommonUtils.changeActivity(activity, HomeScreen.class, true);
                     }
 
                 } else {
@@ -104,13 +105,5 @@ public class CompleteRegistrationVM extends ViewModel {
 
         return userRegistration.getUserEmail();
     }
-
-    private void showLoadingDialogue(Activity activity) {
-
-        loadingDialogue = new LoadingDialogue(activity);
-        loadingDialogue.ready("Please wait...", "Please wait while we save your account details");
-        loadingDialogue.show();
-    }
-
 
 }

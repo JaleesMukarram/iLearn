@@ -3,37 +3,33 @@ package com.openlearning.ilearn.utils;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.interfaces.StorageUploadInterface;
+import com.openlearning.ilearn.modals.StorageDocument;
 import com.openlearning.ilearn.modals.StorageImage;
+import com.openlearning.ilearn.modals.StorageItem;
 
 
 public class StorageUploadTask implements StorageUploadInterface {
 
     public static final String TAG = "StorageUpTAG";
 
-    private StorageReference reference;
-    private String fileName;
-    private Uri uri;
+    private final StorageReference reference;
+    private final String fileName;
+    private final Uri uri;
+    private final Class<?> returningClass;
 
     private Uri uploadedUri;
 
     private FirebaseSuccessListener listener;
 
-    public StorageUploadTask(StorageReference reference, String fileName, Uri uri) {
+    public StorageUploadTask(StorageReference reference, String fileName, Uri uri, Class<?> returningClass) {
 
         this.reference = reference;
         this.fileName = fileName;
         this.uri = uri;
+        this.returningClass = returningClass;
     }
 
     public void setListener(FirebaseSuccessListener listener) {
@@ -115,8 +111,17 @@ public class StorageUploadTask implements StorageUploadInterface {
     @Override
     public void onCompleteSuccess() {
 
-        StorageImage storageImage = new StorageImage(fileName, uploadedUri.toString(), reference.getPath());
-        listener.onSuccess(storageImage);
+        if (returningClass == StorageImage.class) {
+
+            StorageImage storageImage = new StorageImage(fileName, uploadedUri.toString(), reference.getPath());
+            listener.onSuccess(storageImage);
+
+        } else if (returningClass == StorageDocument.class) {
+
+            StorageDocument storageDocument = new StorageDocument(fileName, uploadedUri.toString(), reference.getPath());
+            listener.onSuccess(storageDocument);
+
+        }
     }
 
     @Override

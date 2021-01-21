@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.activities.CompleteRegistration;
 import com.openlearning.ilearn.activities.HomeScreen;
+import com.openlearning.ilearn.activities.HomeScreenArticleWriter;
 import com.openlearning.ilearn.activities.HomeScreenInstructor;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.registration.UserRegistration;
@@ -71,6 +72,8 @@ public class SignInVM extends ViewModel {
                         CommonUtils.changeActivity(activity, HomeScreen.class, true);
                     } else if (user.getAccountType() == User.TYPE_INSTRUCTOR) {
                         CommonUtils.changeActivity(activity, HomeScreenInstructor.class, true);
+                    } else if (user.getAccountType() == User.TYPE_ARTICLE_WRITER) {
+                        CommonUtils.changeActivity(activity, HomeScreenArticleWriter.class, true);
                     }
 
                 } else {

@@ -2,38 +2,22 @@ package com.openlearning.ilearn.chat.queries;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
+import com.openlearning.ilearn.modals.StorageDocument;
+
 
 public class DocumentChat extends Chat implements Cloneable {
 
-    private final int chatType = CHAT_TYPE_DOCUMENTS;
-    private String documentUri;
-    private String documentName;
-    private long documentSize;
-    private int progress = 100;
-
+    private StorageDocument storageDocument;
 
     public DocumentChat() {
     }
 
-    public DocumentChat(String documentUri, String documentName, long documentSize) {
-        this.documentUri = documentUri;
-        this.documentName = documentName;
-        this.documentSize = documentSize;
-    }
-
-    public DocumentChat(String sendingUserID, String receivingUserID, String documentUri, String documentName, long documentSize) {
+    public DocumentChat(String sendingUserID, String receivingUserID, StorageDocument storageDocument) {
         super(sendingUserID, receivingUserID, CHAT_TYPE_DOCUMENTS);
-        this.documentUri = documentUri;
-        this.documentName = documentName;
-        this.documentSize = documentSize;
+        this.storageDocument = storageDocument;
     }
 
-    public DocumentChat(String sendingUserID, String receivingUserID, Date sentDate, Date receivedDate, Date readDate, String documentUri, String documentName) {
-        super(sendingUserID, receivingUserID, sentDate, readDate);
-        this.documentUri = documentUri;
-        this.documentName = documentName;
-    }
+
 
     @NonNull
     @Override
@@ -41,39 +25,12 @@ public class DocumentChat extends Chat implements Cloneable {
         return super.clone();
     }
 
-    public long getDocumentSize() {
-        return documentSize;
+    public StorageDocument getStorageDocument() {
+        return storageDocument;
     }
 
-    public void setDocumentSize(long documentSize) {
-        this.documentSize = documentSize;
+    public void setStorageDocument(StorageDocument storageDocument) {
+        this.storageDocument = storageDocument;
     }
 
-    public String getDocumentUri() {
-        return documentUri;
-    }
-
-    public void setDocumentUri(String documentUri) {
-        this.documentUri = documentUri;
-    }
-
-    public String getDocumentName() {
-        return documentName;
-    }
-
-    public void setDocumentName(String documentName) {
-        this.documentName = documentName;
-    }
-
-    public int getChatType() {
-        return chatType;
-    }
-
-    public int getProgress() {
-        return progress;
-    }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
 }

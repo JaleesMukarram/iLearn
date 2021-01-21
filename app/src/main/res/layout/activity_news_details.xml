@@ -77,14 +77,14 @@
                 android:id="@+id/TVNewsRelativeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text='@{CommonUtils.getRelativeDate(News.createdDate) + " ago"}'
-                android:textColor="@color/colorBlue"
-                android:textSize="16sp"
+                android:textColor="@color/colorGrayTextLight"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LLNewsImages"
+                app:layout_constraintTop_toBottomOf="@+id/TVNewsHeading"
                 tools:text="2d ago" />
 
 
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{News.heading}"
                 android:textColor="@color/colorPrimary"
@@ -101,7 +101,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVNewsRelativeDate"
+                app:layout_constraintTop_toBottomOf="@+id/MCVLikeContainer"
                 tools:text="MDCAT Date" />
 
             <TextView
@@ -116,7 +116,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVNewsHeading"
+                app:layout_constraintTop_toBottomOf="@+id/TVNewsRelativeDate"
                 tools:text="MDCAT Test date announced for all provinces" />
 
 
@@ -147,7 +147,52 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view">
 
+
             </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/MCVLikeContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LLNewsImages">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/IVLikedIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:contentDescription="@string/icon_description"
+                        android:src="@drawable/ic_like" />
+
+                    <TextView
+                        android:id="@+id/TVLikeCounts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold"
+                        tools:text="@{String.valueOf(News.postReactList.size())}" />
+
+                </RelativeLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

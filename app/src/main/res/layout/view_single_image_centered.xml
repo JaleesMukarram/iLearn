@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="ImageFile"
-            type="java.io.File" />
+            name="ImageURI"
+            type="String" />
 
     </data>
 
@@ -28,7 +28,7 @@
             android:contentDescription="@string/icon_description"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:imgSrcSmall="@{ImageFile}"
+            android:imgSrcURI="@{ImageURI}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

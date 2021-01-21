@@ -16,11 +16,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
+import com.openlearning.ilearn.modals.PostReact;
+import com.openlearning.ilearn.modals.StorageImage;
 import com.openlearning.ilearn.utils.StorageUploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -75,34 +79,29 @@ public class NewsRepository {
 
     }
 
-    public void getNewsFromDatabase(boolean fromServer, FireStoreObjectGetListener listener) {
+    public void getNewsFromDatabase(FireStoreObjectGetListener listener) {
 
         Log.d(TAG, "getNewsFromDatabase: getting all news from server ");
 
-        if (!fromServer && newsList.size() > 0) {
-
-            listener.onSuccess(newsList);
-            Log.d(TAG, "getNewsFromDatabase: Old list returned");
-            return;
-        }
 
         db.collection(NEWS_COLLECTION)
+                .whereEqualTo("active", true)
                 .orderBy("createdDate", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(task -> {
 
-                    if (!task.isSuccessful()) {
+                .addSnapshotListener((querySnapshot, error) -> {
 
-                        Log.d(TAG, "getNewsFromDatabase: news getting failed");
-                        listener.onFailure(task.getException());
+                    if (error != null) {
+
+                        Log.d(TAG, "getNewsFromDatabase: News getting failed: " + error);
+                        listener.onFailure(error);
                         return;
                     }
 
                     newsList.clear();
 
-                    if (Objects.requireNonNull(task.getResult()).size() > 0) {
+                    if (Objects.requireNonNull(querySnapshot).size() > 0) {
 
-                        for (DocumentSnapshot snapshot : task.getResult()) {
+                        for (DocumentSnapshot snapshot : querySnapshot) {
                             News news = snapshot.toObject(News.class);
                             newsList.add(news);
                         }
@@ -114,8 +113,20 @@ public class NewsRepository {
                         Log.d(TAG, "getNewsFromDatabase: No News found");
                         listener.onSuccess(null);
                     }
+
+
                 });
 
+    }
+
+    public News getNewsFromLocalListWithId(String newsID) {
+
+        for (News news : newsList) {
+
+            if (news.getId().equals(newsID)) return news;
+
+        }
+        return null;
     }
 
     public void getNewsFromDatabase(boolean fromServer, String instructorID, FireStoreObjectGetListener listener) {
@@ -162,11 +173,11 @@ public class NewsRepository {
 
     }
 
-    public void updateThisNewsIntoDatabase(News newNews, FirebaseSuccessListener listener) {
+    public void updateThisNewsIntoDatabase(News news, FirebaseSuccessListener listener) {
 
         db.collection(NEWS_COLLECTION)
-                .document(newNews.getId())
-                .set(newNews, SetOptions.merge())
+                .document(news.getId())
+                .set(news, SetOptions.merge())
                 .addOnCompleteListener(task -> {
 
                     if (!task.isSuccessful()) {
@@ -176,7 +187,7 @@ public class NewsRepository {
                         return;
                     }
 
-                    listener.onSuccess(newNews);
+                    listener.onSuccess(news);
                     Log.d(TAG, "updateThisNewsIntoDatabase: News edited successfully");
                 });
 
@@ -185,7 +196,7 @@ public class NewsRepository {
     public void addNewsImageToDatabase(File file, FirebaseSuccessListener listener) {
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(STORAGE_DIRECTORY);
-        StorageUploadTask storageUploadTask = new StorageUploadTask(storageReference, UUID.randomUUID().toString() + ".jpg", Uri.fromFile(file));
+        StorageUploadTask storageUploadTask = new StorageUploadTask(storageReference, UUID.randomUUID().toString() + ".jpg", Uri.fromFile(file), StorageImage.class);
         storageUploadTask.setListener(listener);
 
     }
@@ -209,5 +220,25 @@ public class NewsRepository {
                     listener.onSuccess(true);
 
                 });
+    }
+
+    public void updateReactListForThisNews(String newsID, List<PostReact> postReactList, FirebaseSuccessListener listener) {
+
+        Map<String, List<PostReact>> reactMap = new HashMap<>();
+        reactMap.put("postReactList", postReactList);
+
+        db.collection(NEWS_COLLECTION)
+                .document(newsID)
+                .set(reactMap, SetOptions.merge())
+                .addOnCompleteListener(task -> {
+
+                    if (!task.isSuccessful()) {
+                        listener.onFailure(task.getException());
+                        Log.d(TAG, "updateReactListForThisArticle: failed to updated like: " + task.getException());
+                        return;
+                    }
+                    listener.onSuccess(null);
+                });
+
     }
 }

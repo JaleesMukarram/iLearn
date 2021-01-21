@@ -1,5 +1,7 @@
 package com.openlearning.ilearn.registration;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
@@ -67,7 +69,6 @@ public class UserDatabase {
                     listener.onSuccess(null);
 
 
-
                 });
     }
 
@@ -113,5 +114,25 @@ public class UserDatabase {
 
             }
         });
+    }
+
+    public void getNameOfUserWithId(String id, FirebaseSuccessListener listener) {
+
+        getUserWithThisID(id, false, new FireStoreObjectGetListener() {
+            @Override
+            public void onSuccess(@Nullable Object obj) {
+
+                User user = (User) obj;
+                listener.onSuccess(user != null ? user.getName() : null);
+
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+                listener.onFailure(ex);
+            }
+        });
+
     }
 }

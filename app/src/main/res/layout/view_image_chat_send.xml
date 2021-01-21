@@ -79,8 +79,8 @@
                 android:id="@+id/PBSendingProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:theme="@style/PrimaryAsAccent"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:theme="@style/PrimaryAsAccent" />
 
         </RelativeLayout>
 

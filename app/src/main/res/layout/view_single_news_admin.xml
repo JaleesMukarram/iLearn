@@ -15,7 +15,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="12dp">
@@ -43,7 +43,7 @@
             <TextView
                 android:id="@+id/TVNewsTitle"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{News.title}"
                 android:textColor="@color/colorBlack"
@@ -58,14 +58,16 @@
                 android:id="@+id/TVNewsRelativeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text='@{CommonUtils.getRelativeDate(News.createdDate) + " ago"}'
                 android:textColor="@color/colorGrayText"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="2d" />
+                app:layout_constraintStart_toEndOf="@+id/TVLikeCounts"
+                app:layout_constraintTop_toBottomOf="@+id/TVNewsTitle"
+                tools:text="2 days(s) ago" />
 
             <ImageView
                 android:id="@+id/IVThreeDots"
@@ -79,6 +81,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/TVNewsHeading"
                 app:tint="@color/colorPrimary" />
+
+
+            <TextView
+                android:id="@+id/TVLikeCounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="4dp"
+                android:text='@{String.valueOf(News.postReactList.size())}'
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_like_done_small"
+                app:layout_constraintStart_toStartOf="@+id/TVNewsTitle"
+                app:layout_constraintTop_toBottomOf="@+id/TVNewsTitle"
+                tools:text="23" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

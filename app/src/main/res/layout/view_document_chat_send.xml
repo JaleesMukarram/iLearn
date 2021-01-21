@@ -58,8 +58,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_below="@+id/IVDocumentDownload"
-                    android:theme="@style/PrimaryAsAccent"
-                    android:visibility="visible" />
+                    android:theme="@style/PrimaryAsAccent" />
 
 
             </RelativeLayout>
@@ -128,14 +127,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/RLTopContainer"
             android:layout_marginTop="4dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
             android:visibility="visible">
 
             <ProgressBar
                 android:id="@+id/PBSendingProgress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:theme="@style/PrimaryAsAccent" />

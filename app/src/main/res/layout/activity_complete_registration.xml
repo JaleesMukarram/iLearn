@@ -186,14 +186,14 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/ETName"
-            app:srcCompat="@drawable/ic_reading" />
+            app:srcCompat="@drawable/ic_reading"
+            app:tint="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/TVAccountType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Student"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold"

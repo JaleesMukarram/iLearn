@@ -91,7 +91,7 @@ public class ShowSubjects extends AppCompatActivity implements ActivityHooks {
 
     private void showSubjectRecycler() {
 
-        SubjectAdapterClient subjectAdapter = new SubjectAdapterClient(this, subjectList);
+        SubjectAdapterClient subjectAdapter = new SubjectAdapterClient(this, subjectList, SubjectAdapterClient.FOR_STUDENT);
         mBinding.RVAllSubjectsRecycler.setAdapter(subjectAdapter);
 
     }

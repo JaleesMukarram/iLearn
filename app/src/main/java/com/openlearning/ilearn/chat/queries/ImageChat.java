@@ -2,29 +2,32 @@ package com.openlearning.ilearn.chat.queries;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.openlearning.ilearn.modals.StorageImage;
 
+
+@IgnoreExtraProperties
 public class ImageChat extends Chat implements Cloneable {
 
-    private String imageUri;
-    private int chatType = CHAT_TYPE_IMAGE;
+    private StorageImage storageImage;
+    private String imageLocalUri;
+
+
 
     public ImageChat() {
     }
 
-    public ImageChat(String imageUri) {
-        this.imageUri = imageUri;
-    }
-
-    public ImageChat(String sendingUserID, String receivingUserID, String imageUri) {
+    public ImageChat(String sendingUserID, String receivingUserID, StorageImage storageImage) {
         super(sendingUserID, receivingUserID, CHAT_TYPE_IMAGE);
-        this.imageUri = imageUri;
+        this.storageImage = storageImage;
     }
 
-    public ImageChat(String sendingUserID, String receivingUserID, Date sentDate, Date receivedDate, Date readDate, String imageUri) {
-        super(sendingUserID, receivingUserID, sentDate, readDate);
-        this.imageUri = imageUri;
+    public ImageChat(String sendingUserID, String receivingUserID, String imageLocalUri) {
+        super(sendingUserID, receivingUserID, CHAT_TYPE_IMAGE);
+        this.imageLocalUri = imageLocalUri;
     }
+
 
     @NonNull
     @Override
@@ -32,16 +35,17 @@ public class ImageChat extends Chat implements Cloneable {
         return super.clone();
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public void setStorageImage(StorageImage storageImage) {
+        this.storageImage = storageImage;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public StorageImage getStorageImage() {
+        return storageImage;
     }
 
-    public int getChatType() {
-        return chatType;
+    @Exclude
+    public String getImageLocalUri() {
+        return imageLocalUri;
     }
 
 }

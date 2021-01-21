@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.openlearning.ilearn.utils.CommonUtils" />
+
+        <variable
+            name="Article"
+            type="com.openlearning.ilearn.article.modals.Article" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/CLMainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+
+            <ImageView
+                android:id="@+id/IVArticleIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/icon_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_article_24" />
+
+
+            <TextView
+                android:id="@+id/TVArticleName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@{Article.name}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/IVThreeDots"
+                app:layout_constraintStart_toEndOf="@+id/IVArticleIcon"
+                app:layout_constraintTop_toTopOf="@+id/IVArticleIcon"
+                tools:text="MDCAT Date" />
+
+            <TextView
+                android:id="@+id/TVArticleCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@{Article.category}"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/IVArticleIcon"
+                app:layout_constraintTop_toBottomOf="@+id/TVArticleName"
+                tools:text="MS Office" />
+
+            <TextView
+                android:id="@+id/TVNewsRelativeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{CommonUtils.getRelativeDate(Article.createdDate) + " ago"}'
+                android:textColor="@color/colorGrayText"
+                android:textSize="12sp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/TVCommentsCounts"
+                tools:text="2 days(s) ago" />
+
+            <ImageView
+                android:id="@+id/IVThreeDots"
+                android:layout_width="30dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icon_description"
+                android:padding="4dp"
+                android:src="@drawable/ic_three_dots"
+                app:layout_constraintBottom_toBottomOf="@+id/TVArticleName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/TVArticleName"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/TVLikeCounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:drawablePadding="4dp"
+                android:text='@{String.valueOf(Article.postReactList.size())}'
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_like_done_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/IVArticleIcon"
+                tools:text="23" />
+
+            <TextView
+                android:id="@+id/TVCommentsCounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text='@{String.valueOf(Article.postCommentList.size())}'
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_comment_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/TVLikeCounts"
+                tools:text="23" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

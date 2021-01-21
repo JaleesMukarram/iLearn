@@ -34,6 +34,8 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
     private List<News> newsList;
     private List<Subject> subjectList;
 
+    private NewsAdapter newsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +82,10 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
 
         viewModel.getNewsList().observe(this, news -> {
 
-            Log.d(TAG, "init: ");
             newsList = news;
             showNewsRecycler();
         });
-        viewModel.getNews();
+        viewModel.getNews(this);
 
         viewModel.getSubjectsList().observe(this, subjects -> {
 
@@ -95,8 +96,6 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
 
         viewModel.getSubjects(this, false);
 
-//        mBinding.IVAccountTypeIcon.setOnClickListener(v -> CommonUtils.changeActivity(this, AllSubjects.class, false));
-
     }
 
     @Override
@@ -106,8 +105,12 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
 
     private void showNewsRecycler() {
 
-        NewsAdapter newsAdapter = new NewsAdapter(this, newsList);
-        mBinding.RVAllNewsRecycler.setAdapter(newsAdapter);
+        if (newsAdapter == null) {
+            newsAdapter = new NewsAdapter(this, newsList);
+            mBinding.RVAllNewsRecycler.setAdapter(newsAdapter);
+        } else {
+            newsAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -121,7 +124,7 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
 
     private void showSubjectRecycler() {
 
-        SubjectAdapterClient subjectAdapter = new SubjectAdapterClient(this, subjectList);
+        SubjectAdapterClient subjectAdapter = new SubjectAdapterClient(this, subjectList, SubjectAdapterClient.FOR_STUDENT);
         mBinding.RVAllSubjectsRecycler.setAdapter(subjectAdapter);
 
     }

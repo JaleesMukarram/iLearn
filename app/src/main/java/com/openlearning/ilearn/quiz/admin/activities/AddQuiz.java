@@ -105,7 +105,7 @@ public class AddQuiz extends AppCompatActivity implements ActivityHooks {
             @Override
             public void onDelete() {
 
-//                viewModel.deleteEditNews(AddNews.this);
+//                viewModel.deleteEditArticle(AddNews.this);
 
             }
         });
