@@ -2,23 +2,21 @@ package com.openlearning.ilearn.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.activities.AllChats;
 import com.openlearning.ilearn.databinding.ActivityHomeScreenBinding;
 import com.openlearning.ilearn.dialogues.AccountOptionDialogue;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
-import com.openlearning.ilearn.news.News;
-import com.openlearning.ilearn.news.NewsAdapter;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.adapters.NewsAdapter;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.quiz.client.activities.ShowSubjects;
 import com.openlearning.ilearn.quiz.client.adapters.SubjectAdapterClient;
-import com.openlearning.ilearn.quiz.client.view_models.ShowSubjectsVM;
 import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.view_models.HomeScreenVM;
 
@@ -70,6 +68,7 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
         mBinding.IVAccountTypeIcon.setOnClickListener(accountOptionsListener);
         mBinding.TVUserName.setOnClickListener(accountOptionsListener);
         mBinding.TVUserType.setOnClickListener(accountOptionsListener);
+        mBinding.IVConversation.setOnClickListener(v -> CommonUtils.changeActivity(this, AllChats.class, false));
 
         mBinding.TVShowAllSubjects.setOnClickListener(v -> CommonUtils.changeActivity(this, ShowSubjects.class, false));
 
@@ -93,8 +92,8 @@ public class HomeScreen extends AppCompatActivity implements ActivityHooks {
             showSubjectRecycler();
 
         });
-
         viewModel.getSubjects(this, false);
+
 
     }
 

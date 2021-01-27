@@ -26,13 +26,15 @@
 
             <TextView
                 android:id="@+id/TVQuestionName"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@{Question.name}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/IVThreeDots"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="MDCAT Date" />

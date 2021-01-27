@@ -2,10 +2,13 @@ package com.openlearning.ilearn.quiz.admin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.databinding.ActivityAddQuestionsBinding;
@@ -17,16 +20,16 @@ import com.openlearning.ilearn.quiz.admin.modals.QuizQuestion;
 import com.openlearning.ilearn.quiz.admin.modals.QuizSection;
 import com.openlearning.ilearn.quiz.admin.view_models.AddQuestionsVM;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddQuestions extends AppCompatActivity implements ActivityHooks {
 
+    private static final String TAG = "AddQuestionTAG";
     private Quiz quiz;
     private QuizSection quizSection;
     private ActivityAddQuestionsBinding mBinding;
     private AddQuestionsVM viewModel;
-    private List<QuizQuestion> quizQuestionList;
+    private QuizQuestionAdapter quizQuestionAdapter;
 
 
     @Override
@@ -60,8 +63,6 @@ public class AddQuestions extends AppCompatActivity implements ActivityHooks {
     @Override
     public void init() {
 
-        quizQuestionList = new ArrayList<>();
-
         viewModel = ViewModelProviders.of(this).get(AddQuestionsVM.class);
         viewModel.initIDs(quiz, quizSection);
 
@@ -74,10 +75,23 @@ public class AddQuestions extends AppCompatActivity implements ActivityHooks {
 
         viewModel.getQuestionsList().observe(this, quizQuestions -> {
 
-            quizQuestionList = quizQuestions;
-            showQuestionsRecycler();
+            if (quizQuestionAdapter == null) {
 
+                showQuestionsRecycler(quizQuestions);
 
+            } else {
+
+                quizQuestionAdapter.notifyDataSetChanged();
+            }
+        });
+
+        viewModel.getQuestionsEmpty().observe(this, empty -> {
+
+            if (empty) {
+
+                Toast.makeText(this, "No Question Added", Toast.LENGTH_SHORT).show();
+                mBinding.RVAllQuizQuestionsRecycler.setAdapter(null);
+            }
         });
         viewModel.getAllSectionQuestions(this, true);
 
@@ -105,7 +119,7 @@ public class AddQuestions extends AppCompatActivity implements ActivityHooks {
 
         if (editQuestion != null) {
 
-            dialogue.setEditQuestion(editQuestion);
+            dialogue.setEditQuestion(editQuestion, questionID -> viewModel.deleteQuizQuestion(this, questionID));
 
         }
 
@@ -113,15 +127,15 @@ public class AddQuestions extends AppCompatActivity implements ActivityHooks {
 
     }
 
-    private void showQuestionsRecycler() {
+    private void showQuestionsRecycler(List<QuizQuestion> quizQuestionList) {
 
-        QuizQuestionAdapter quizAdapter = new QuizQuestionAdapter(this, quiz, quizSection, quizQuestionList, obj -> {
+        quizQuestionAdapter = new QuizQuestionAdapter(this, quiz, quizSection, quizQuestionList, obj -> {
 
             QuizQuestion editQuestion = (QuizQuestion) obj;
             showQuestionDialogue(editQuestion);
 
         });
-        mBinding.RVAllQuizQuestionsRecycler.setAdapter(quizAdapter);
+        mBinding.RVAllQuizQuestionsRecycler.setAdapter(quizQuestionAdapter);
 
     }
 

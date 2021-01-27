@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.view_model;
 
 import android.app.Activity;
 
@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.repositories.NewsRepository;
 import com.openlearning.ilearn.registration.UserRegistration;
 import com.openlearning.ilearn.utils.CommonUtils;
 
@@ -27,9 +29,9 @@ public class AllNewsVM extends ViewModel {
         newsEmpty = new MutableLiveData<>();
     }
 
-    public void getNews(Activity activity, boolean fromServer) {
+    public void getNews(Activity activity) {
 
-        newsRepository.getNewsFromDatabase(fromServer, userRegistration.getUserID(), new FireStoreObjectGetListener() {
+        newsRepository.getNewsFromDatabase(userRegistration.getUserID(), new FireStoreObjectGetListener() {
             @Override
             @SuppressWarnings("unchecked")
             public void onSuccess(@Nullable Object obj) {

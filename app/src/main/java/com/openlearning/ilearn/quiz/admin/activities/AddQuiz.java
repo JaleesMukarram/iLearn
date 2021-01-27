@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.databinding.ActivityAddQuizBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
-import com.openlearning.ilearn.news.StatusDialogue;
+import com.openlearning.ilearn.news.dialogues.StatusDialogue;
 import com.openlearning.ilearn.quiz.admin.modals.Quiz;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.quiz.admin.view_models.AddQuizVM;

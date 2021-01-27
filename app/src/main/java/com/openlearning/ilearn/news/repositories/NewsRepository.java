@@ -1,16 +1,17 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.repositories;
 
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -18,13 +19,12 @@ import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.PostReact;
 import com.openlearning.ilearn.modals.StorageImage;
+import com.openlearning.ilearn.news.modals.News;
 import com.openlearning.ilearn.utils.StorageUploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,11 +41,23 @@ public class NewsRepository {
     private final FirebaseFirestore db;
     private final List<News> newsList;
 
+    private EventListener<QuerySnapshot> singleNewsListener;
+    private List<FireStoreObjectGetListener> allRegisteredListeners;
+
     private NewsRepository() {
 
         Log.d(TAG, "NewsRepository: instance created");
         db = FirebaseFirestore.getInstance();
         newsList = new ArrayList<>();
+        singleNewsListener = new NewsListener();
+        allRegisteredListeners = new ArrayList<>();
+
+
+        db.collection(NEWS_COLLECTION)
+                .whereEqualTo("active", true)
+                .orderBy("createdDate", Query.Direction.DESCENDING)
+                .addSnapshotListener(singleNewsListener);
+
     }
 
     public static NewsRepository getInstance() {
@@ -81,64 +93,14 @@ public class NewsRepository {
 
     public void getNewsFromDatabase(FireStoreObjectGetListener listener) {
 
-        Log.d(TAG, "getNewsFromDatabase: getting all news from server ");
-
-
-        db.collection(NEWS_COLLECTION)
-                .whereEqualTo("active", true)
-                .orderBy("createdDate", Query.Direction.DESCENDING)
-
-                .addSnapshotListener((querySnapshot, error) -> {
-
-                    if (error != null) {
-
-                        Log.d(TAG, "getNewsFromDatabase: News getting failed: " + error);
-                        listener.onFailure(error);
-                        return;
-                    }
-
-                    newsList.clear();
-
-                    if (Objects.requireNonNull(querySnapshot).size() > 0) {
-
-                        for (DocumentSnapshot snapshot : querySnapshot) {
-                            News news = snapshot.toObject(News.class);
-                            newsList.add(news);
-                        }
-
-                        Log.d(TAG, "getNewsFromDatabase: total news found: " + newsList.size());
-                        listener.onSuccess(newsList);
-                    } else {
-
-                        Log.d(TAG, "getNewsFromDatabase: No News found");
-                        listener.onSuccess(null);
-                    }
-
-
-                });
-
-    }
-
-    public News getNewsFromLocalListWithId(String newsID) {
-
-        for (News news : newsList) {
-
-            if (news.getId().equals(newsID)) return news;
-
-        }
-        return null;
-    }
-
-    public void getNewsFromDatabase(boolean fromServer, String instructorID, FireStoreObjectGetListener listener) {
-
-        Log.d(TAG, "getNewsFromDatabase: instructorID: " + instructorID);
-
-        if (!fromServer && newsList.size() > 0) {
+        allRegisteredListeners.add(listener);
+        if (newsList.size() > 0) {
 
             listener.onSuccess(newsList);
-            Log.d(TAG, "getNewsFromDatabase: Old list returned");
-            return;
         }
+    }
+
+    public void getNewsFromDatabase(String instructorID, FireStoreObjectGetListener listener) {
 
         db.collection(NEWS_COLLECTION)
                 .whereEqualTo("instructorID", instructorID)
@@ -222,23 +184,80 @@ public class NewsRepository {
                 });
     }
 
-    public void updateReactListForThisNews(String newsID, List<PostReact> postReactList, FirebaseSuccessListener listener) {
-
-        Map<String, List<PostReact>> reactMap = new HashMap<>();
-        reactMap.put("postReactList", postReactList);
+    public void addPostReactForThisNews(String newsID, PostReact postReact, FirebaseSuccessListener listener) {
 
         db.collection(NEWS_COLLECTION)
                 .document(newsID)
-                .set(reactMap, SetOptions.merge())
+                .update("postReactList", FieldValue.arrayUnion(postReact))
                 .addOnCompleteListener(task -> {
 
                     if (!task.isSuccessful()) {
                         listener.onFailure(task.getException());
-                        Log.d(TAG, "updateReactListForThisArticle: failed to updated like: " + task.getException());
+                        Log.d(TAG, "addReactCommentForThisNews: failed to updated like: " + task.getException());
                         return;
                     }
+
                     listener.onSuccess(null);
                 });
 
+    }
+
+    public void removePostReactForThisNews(String newsID, PostReact postReact, FirebaseSuccessListener listener) {
+
+        db.collection(NEWS_COLLECTION)
+                .document(newsID)
+                .update("postReactList", FieldValue.arrayRemove(postReact))
+                .addOnCompleteListener(task -> {
+
+                    if (!task.isSuccessful()) {
+                        listener.onFailure(task.getException());
+                        Log.d(TAG, "removePostReactForThisNews: failed to updated like: " + task.getException());
+                        return;
+                    }
+
+                    listener.onSuccess(null);
+                });
+
+    }
+
+    public void destroy() {
+        instance = null;
+    }
+
+    private class NewsListener implements EventListener<QuerySnapshot> {
+
+        @Override
+        public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException error) {
+
+            if (error != null) {
+
+                Log.d(TAG, "onEvent: News getting failed: " + error);
+                for (FireStoreObjectGetListener listener : allRegisteredListeners) {
+                    listener.onFailure(error);
+                }
+                return;
+            }
+
+            newsList.clear();
+
+            if (Objects.requireNonNull(querySnapshot).size() > 0) {
+
+                for (DocumentSnapshot snapshot : querySnapshot) {
+                    News news = snapshot.toObject(News.class);
+                    newsList.add(news);
+                }
+
+                Log.d(TAG, "onEvent: total news found: " + newsList.size());
+                for (FireStoreObjectGetListener listener : allRegisteredListeners) {
+                    listener.onSuccess(newsList);
+                }
+            } else {
+
+                Log.d(TAG, "onEvent: No News found");
+                for (FireStoreObjectGetListener listener : allRegisteredListeners) {
+                    listener.onSuccess(null);
+                }
+            }
+        }
     }
 }

@@ -12,9 +12,11 @@ import androidx.databinding.DataBindingUtil;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.databinding.ViewAddQuestionDialogueBinding;
 import com.openlearning.ilearn.interfaces.AddedCompleteListener;
+import com.openlearning.ilearn.interfaces.ConfirmationListener;
 import com.openlearning.ilearn.quiz.admin.modals.QuestionOption;
 import com.openlearning.ilearn.quiz.admin.modals.QuizQuestion;
 import com.openlearning.ilearn.quiz.admin.utils.OptionAddingUtils;
+import com.openlearning.ilearn.utils.CommonUtils;
 
 import java.util.UUID;
 
@@ -98,11 +100,27 @@ public class AddQuestionDialogue {
         }
     }
 
-    public void setEditQuestion(QuizQuestion editQuestion) {
+    public void setEditQuestion(QuizQuestion editQuestion, DeleteListener deleteListener) {
         this.editQuestion = editQuestion;
         Log.d(TAG, "setEditQuestion: edit mode");
         mBinding.setQuestion(editQuestion);
-        mBinding.BTNAdd.setText(R.string.edit);
+        mBinding.BTNDelete.setVisibility(View.VISIBLE);
+        mBinding.BTNDelete.setOnClickListener(v -> {
+
+            CommonUtils.showConfirmationDialogue(homeScreen, "Delete this question?", "Are you sure to delete this question permanently?", "Yes", new ConfirmationListener() {
+                @Override
+                public void onPositive() {
+                    deleteListener.onDelete(editQuestion.getID());
+                    cancel();
+                }
+
+                @Override
+                public void onNegative() {
+
+                }
+            });
+
+        });
 
         for (QuestionOption questionOption : editQuestion.getQuestionOptionList()) {
 
@@ -170,6 +188,11 @@ public class AddQuestionDialogue {
 
         return true;
 
+    }
+
+    public interface DeleteListener {
+
+        void onDelete(String questionID);
     }
 
 

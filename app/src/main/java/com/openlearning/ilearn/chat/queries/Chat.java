@@ -14,6 +14,7 @@ public class Chat implements Cloneable {
 
     public static final String SENDING_USER_ID_KEY = "suik";
     public static final String RECEIVING_USER_ID_KEY = "ruik";
+    public static final String NAME_KEY = "runk";
 
     public static final int CHAT_TYPE_MESSAGE = 2;
     public static final int CHAT_TYPE_IMAGE = 4;

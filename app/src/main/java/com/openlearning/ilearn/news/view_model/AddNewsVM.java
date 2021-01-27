@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.view_model;
 
 import android.app.Activity;
 import android.util.Log;
@@ -7,23 +7,22 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.Glide;
 import com.openlearning.ilearn.R;
-import com.openlearning.ilearn.chat.queries.FirebaseGlobals;
 import com.openlearning.ilearn.databinding.ViewSingleImageBinding;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.StorageImage;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.repositories.NewsRepository;
 import com.openlearning.ilearn.registration.UserRegistration;
 import com.openlearning.ilearn.utils.CommonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.openlearning.ilearn.utils.CommonUtils.MAX_LENGTH_MAX;
 import static com.openlearning.ilearn.utils.CommonUtils.MAX_LENGTH_MEDIUM;

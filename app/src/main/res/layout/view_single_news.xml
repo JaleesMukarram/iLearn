@@ -9,7 +9,7 @@
 
         <variable
             name="News"
-            type="com.openlearning.ilearn.news.News" />
+            type="com.openlearning.ilearn.news.modals.News" />
 
     </data>
 

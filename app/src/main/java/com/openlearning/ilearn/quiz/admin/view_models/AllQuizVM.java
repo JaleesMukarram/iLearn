@@ -66,7 +66,7 @@ public class AllQuizVM extends ViewModel {
 
     public void getAllArticleForThisSubject(Activity activity) {
 
-        articleRepository.getSubjectArticlesFromDatabase( subject.getId(), new FireStoreObjectGetListener() {
+        articleRepository.getSubjectArticlesFromDatabase(subject.getId(), new FireStoreObjectGetListener() {
             @Override
             @SuppressWarnings("unchecked")
             public void onSuccess(@Nullable Object obj) {

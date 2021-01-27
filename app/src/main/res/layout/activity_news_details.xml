@@ -10,7 +10,7 @@
 
         <variable
             name="News"
-            type="com.openlearning.ilearn.news.News" />
+            type="com.openlearning.ilearn.news.modals.News" />
 
     </data>
 
@@ -18,7 +18,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".news.NewsDetails">
+        tools:context=".news.activities.NewsDetails">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -113,7 +113,8 @@
                 android:layout_marginEnd="16dp"
                 android:text="@{News.title}"
                 android:textColor="@color/colorBlack"
-                android:textSize="14sp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TVNewsRelativeDate"
@@ -130,7 +131,7 @@
                 android:layout_marginBottom="50dp"
                 android:text="@{News.body}"
                 android:textColor="@color/colorBlack"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 

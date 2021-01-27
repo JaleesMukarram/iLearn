@@ -1,5 +1,7 @@
 package com.openlearning.ilearn.registration;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -86,10 +88,10 @@ public class UserDatabase {
                     }
 
                     User user = Objects.requireNonNull(task.getResult()).toObject(User.class);
-                    listener.onSuccess(user);
-
                     if (currentUser)
                         currentDBUser = user;
+
+                    listener.onSuccess(user);
 
                 });
 

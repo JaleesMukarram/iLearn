@@ -47,13 +47,7 @@ public class CompleteRegistrationVM extends ViewModel {
                 User user = (User) obj;
                 if (user.getAccountStatus() == User.ACCOUNT_OK) {
 
-                    if (user.getAccountType() == User.TYPE_GENERAL_USER) {
-                        CommonUtils.changeActivity(activity, HomeScreen.class, true);
-                    } else if (user.getAccountType() == User.TYPE_INSTRUCTOR) {
-                        CommonUtils.changeActivity(activity, HomeScreenInstructor.class, true);
-                    } else {
-                        CommonUtils.changeActivity(activity, HomeScreen.class, true);
-                    }
+                    CommonUtils.changeActivity(activity, CommonUtils.getHomeScreenClass(activity), true);
 
                 } else {
 

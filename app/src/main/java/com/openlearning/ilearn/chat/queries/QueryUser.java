@@ -4,30 +4,28 @@ import java.util.Date;
 
 public class QueryUser {
 
-    private int UserID;
+    private String UserID;
     private String name;
-    private int totalMessages;
-    private boolean unreadMessage;
-
+    private int totalMessagesCount;
+    private int unreadMessagesCount;
     private Date lastMessageDate;
 
     public QueryUser() {
     }
 
-    public QueryUser(int userID, boolean unreadMessage, Date lastMessageDate) {
+    public QueryUser(String userID, Date lastMessageDate) {
         UserID = userID;
-        this.unreadMessage = unreadMessage;
         this.lastMessageDate = lastMessageDate;
-        this.totalMessages = 1;
+        this.totalMessagesCount = 1;
 
     }
 
 
-    public int getUserID() {
+    public String getUserID() {
         return UserID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         UserID = userID;
     }
 
@@ -39,20 +37,20 @@ public class QueryUser {
         this.name = name;
     }
 
-    public int getTotalMessages() {
-        return totalMessages;
+    public int getTotalMessagesCount() {
+        return totalMessagesCount;
     }
 
-    public void setTotalMessages(int totalMessages) {
-        this.totalMessages = totalMessages;
+    public void setTotalMessagesCount(int totalMessagesCount) {
+        this.totalMessagesCount = totalMessagesCount;
     }
 
-    public boolean isUnreadMessage() {
-        return unreadMessage;
+    public int getUnreadMessagesCount() {
+        return unreadMessagesCount;
     }
 
-    public void setUnreadMessage(boolean unreadMessage) {
-        this.unreadMessage = unreadMessage;
+    public void setUnreadMessagesCount(int unreadMessagesCount) {
+        this.unreadMessagesCount = unreadMessagesCount;
     }
 
     public Date getLastMessageDate() {
@@ -63,9 +61,19 @@ public class QueryUser {
         this.lastMessageDate = lastMessageDate;
     }
 
-    public void incrementTotalMessages(){
+    public void incrementTotalMessages() {
 
-        this.totalMessages++;
+        this.totalMessagesCount++;
+    }
+
+    public void incrementUnReadMessages() {
+
+        this.unreadMessagesCount++;
+    }
+
+    public boolean unreadMessagesAvailable() {
+
+        return unreadMessagesCount > 0;
     }
 
 }

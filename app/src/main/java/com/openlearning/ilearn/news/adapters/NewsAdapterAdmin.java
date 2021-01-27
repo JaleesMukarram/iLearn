@@ -1,32 +1,33 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.adapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openlearning.ilearn.R;
-import com.openlearning.ilearn.databinding.ViewSingleNewsBinding;
+import com.openlearning.ilearn.databinding.ViewSingleNewsAdminBinding;
+import com.openlearning.ilearn.news.activities.AddNews;
+import com.openlearning.ilearn.news.modals.News;
 import com.openlearning.ilearn.utils.CommonUtils;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapterAdmin extends RecyclerView.Adapter<NewsAdapterAdmin.NewsViewHolder> {
 
     private final Context context;
     private final List<News> newsList;
 
-    public NewsAdapter(Context context, List<News> newsList) {
+    public NewsAdapterAdmin(Context context, List<News> newsList) {
         this.context = context;
         this.newsList = newsList;
     }
@@ -35,7 +36,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        ViewSingleNewsBinding viewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_single_news, parent, false);
+        ViewSingleNewsAdminBinding viewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.view_single_news_admin, parent, false);
         return new NewsViewHolder(viewBinding);
     }
 
@@ -51,14 +52,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        private final ViewSingleNewsBinding mBinding;
+        private final ViewSingleNewsAdminBinding mBinding;
 
-        public NewsViewHolder(@NonNull ViewSingleNewsBinding itemBinding) {
+        public NewsViewHolder(@NonNull ViewSingleNewsAdminBinding itemBinding) {
             super(itemBinding.getRoot());
 
             mBinding = itemBinding;
 
-            Animation animation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.down_animation);
+            Animation animation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.right_animation);
             itemView.setAnimation(animation);
 
         }
@@ -68,12 +69,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             mBinding.setNews(newsList.get(position));
             mBinding.getRoot().setOnClickListener(v -> {
 
-                Intent intent = new Intent(context, NewsDetails.class);
+                Intent intent = new Intent(context, AddNews.class);
                 intent.putExtra(News.PARCELABLE_KEY, (Parcelable) newsList.get(position));
                 CommonUtils.changeActivity((Activity) context, intent, false);
 
-
             });
+
+            if (!newsList.get(position).isActive()) {
+
+                mBinding.CLMainContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrayLightMax));
+
+            }
         }
     }
 }

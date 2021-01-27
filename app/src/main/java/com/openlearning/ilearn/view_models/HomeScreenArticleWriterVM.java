@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
-import com.openlearning.ilearn.news.News;
-import com.openlearning.ilearn.news.NewsRepository;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.repositories.NewsRepository;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.quiz.client.repositories.SubjectRepositoryClient;
 import com.openlearning.ilearn.registration.User;

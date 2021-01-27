@@ -60,7 +60,7 @@ public class AccountOptionDialogue {
         }
 
         mBinding.BTNSignOut.setOnClickListener(v -> {
-            userRegistration.signOutUser();
+            userRegistration.signOutUser(homeScreen);
             Toast.makeText(homeScreen, user.getName() + " signed out", Toast.LENGTH_SHORT).show();
             CommonUtils.changeActivity(homeScreen, SignIn.class, true);
         });
@@ -164,7 +164,6 @@ public class AccountOptionDialogue {
         dialogue.show();
 
     }
-
 
     public void show() {
 

@@ -90,6 +90,18 @@ public class AllQuizSectionsVM extends ViewModel {
 
     public void deleteQuizSection(String quizSectionID) {
 
+        quizRepository.deleteQuizSection(quizSectionID, quiz, new FirebaseSuccessListener() {
+            @Override
+            public void onSuccess(Object obj) {
+
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+            }
+        });
+
 
     }
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.openlearning.ilearn">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -12,6 +13,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".utils.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,7 +21,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ILearn">
-        <activity android:name=".article.activities.ArticleDetails"></activity>
+        <service
+            android:name=".utils.BackgroundService"
+            android:enabled="true"
+            android:exported="false" />
+
+
+        <activity android:name=".chat.activities.AllChats" />
+        <activity android:name=".article.activities.ArticleDetails" />
         <activity android:name=".article.activities.AddSubjectArticle" />
         <activity android:name=".article.activities.AllSubjectsArticles" />
         <activity android:name=".activities.HomeScreenArticleWriter" />
@@ -27,7 +36,7 @@
         <activity android:name=".quiz.client.activities.QuizActivity" />
         <activity android:name=".quiz.client.activities.ShowQuiz" />
         <activity android:name=".quiz.client.activities.ShowSubjects" />
-        <activity android:name=".news.NewsDetails" />
+        <activity android:name=".news.activities.NewsDetails" />
         <activity android:name=".activities.HomeScreenInstructor" />
         <activity android:name=".quiz.admin.activities.AddQuestions" />
         <activity android:name=".quiz.admin.activities.AllQuizSections" />
@@ -35,8 +44,8 @@
         <activity android:name=".quiz.admin.activities.AllSubjects" />
         <activity android:name=".quiz.admin.activities.AddQuiz" />
         <activity android:name=".quiz.admin.activities.AddSubject" />
-        <activity android:name=".news.AllNews" />
-        <activity android:name=".news.AddNews" />
+        <activity android:name=".news.activities.AllNews" />
+        <activity android:name=".news.activities.AddNews" />
         <activity android:name=".activities.HomeScreen" />
         <activity android:name=".activities.CompleteRegistration" />
         <activity

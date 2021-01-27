@@ -6,13 +6,10 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.activities.CompleteRegistration;
-import com.openlearning.ilearn.activities.HomeScreen;
-import com.openlearning.ilearn.activities.HomeScreenArticleWriter;
-import com.openlearning.ilearn.activities.HomeScreenInstructor;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
+import com.openlearning.ilearn.registration.User;
 import com.openlearning.ilearn.registration.UserRegistration;
 import com.openlearning.ilearn.registration.interfaces.AuthStateRequestListener;
-import com.openlearning.ilearn.registration.User;
 import com.openlearning.ilearn.utils.CommonUtils;
 
 import static com.openlearning.ilearn.utils.CommonUtils.VALIDATION_SUCCESS;
@@ -68,13 +65,7 @@ public class SignInVM extends ViewModel {
                 user = (User) obj;
                 if (user.getAccountStatus() == User.ACCOUNT_OK) {
 
-                    if (user.getAccountType() == User.TYPE_GENERAL_USER) {
-                        CommonUtils.changeActivity(activity, HomeScreen.class, true);
-                    } else if (user.getAccountType() == User.TYPE_INSTRUCTOR) {
-                        CommonUtils.changeActivity(activity, HomeScreenInstructor.class, true);
-                    } else if (user.getAccountType() == User.TYPE_ARTICLE_WRITER) {
-                        CommonUtils.changeActivity(activity, HomeScreenArticleWriter.class, true);
-                    }
+                    CommonUtils.changeActivity(activity, CommonUtils.getHomeScreenClass(activity), true);
 
                 } else {
 

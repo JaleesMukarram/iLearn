@@ -7,7 +7,7 @@
 
         <variable
             name="EditNews"
-            type="com.openlearning.ilearn.news.News" />
+            type="com.openlearning.ilearn.news.modals.News" />
 
 
     </data>
@@ -15,7 +15,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".news.AddNews">
+        tools:context=".news.activities.AddNews">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

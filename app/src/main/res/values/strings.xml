@@ -55,7 +55,6 @@
     <string name="subject_description">Subject Description</string>
     <string name="edit_subject">Edit Subject</string>
     <string name="save_status">Save Status</string>
-    <string name="delete">Delete</string>
     <string name="change_status">Change Status</string>
     <string name="edit_news">Edit News</string>
     <string name="add_new_news">Add New News</string>
@@ -127,6 +126,9 @@
     <string name="all_articles">All Articles</string>
     <string name="read_free_articles">Read Free Articles</string>
     <string name="add_a_comment">Add a Comment</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="all_chats">All Chats</string>
 
 
 </resources>

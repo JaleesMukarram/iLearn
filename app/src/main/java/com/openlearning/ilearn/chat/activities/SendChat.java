@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openlearning.ilearn.BuildConfig;
@@ -41,6 +41,7 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
     public static final String TAG = "SENDCHATTAG";
     private String SENDING_USER;
     private String RECEIVING_USER;
+    private String receivingUserName;
 
     private ChatAdapter adapter;
 
@@ -78,6 +79,15 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
     public void handleIntent() {
 
         RECEIVING_USER = getIntent().getStringExtra(Chat.RECEIVING_USER_ID_KEY);
+        receivingUserName = getIntent().getStringExtra(Chat.NAME_KEY);
+
+//        if (false) {
+//            RECEIVING_USER = "nqBA3rl1kmStssmvcrDcZ92RcEf1"; // Fahad
+//
+//        } else {
+//            RECEIVING_USER = "DTvNJIxblfeL6eTebSt1yAm2k1w1";
+//
+//        }
 
         if (RECEIVING_USER == null || RECEIVING_USER.equals("")) {
 
@@ -115,7 +125,8 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
 
             if (type == FilePickerUtils.INDEX_FILE_IMAGES) {
 
-                viewModel.handleNewImageChat(imageUri);
+                viewModel.handleNewImageChat(Uri.fromFile(file));
+
             } else {
 
                 viewModel.handleNewDocumentChat(file);
@@ -129,8 +140,12 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
             filePickerUtils.callHooks();
         }
 
-        viewModel.getReceivingUserName().observe(this, name -> mBinding.TVNameShowing.setText(name));
+        if (receivingUserName == null) {
+            viewModel.getReceivingUserName().observe(this, name -> mBinding.TVNameShowing.setText(name));
 
+        } else {
+            mBinding.TVNameShowing.setText(receivingUserName);
+        }
 
     }
 
@@ -146,6 +161,7 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
                 adapter.setChatList(newChatList);
                 adapter.notifyDataSetChanged();
                 mBinding.RVAllChatsRecyclerShowing.smoothScrollToPosition(newChatList.size());
+                loaded();
 
 
             } else {
@@ -155,10 +171,15 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
             }
         });
         viewModel.getChatsFromFirebase();
+        loaded();
     }
 
     @Override
     public void loaded() {
+
+        mBinding.PBRLoading.setVisibility(View.GONE);
+        mBinding.RLSendOptionsContainer.setVisibility(View.VISIBLE);
+        mBinding.RVTopContainerQuery.setVisibility(View.VISIBLE);
 
 
     }
@@ -167,7 +188,9 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        viewModel.destroyForThis();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -300,7 +323,6 @@ public class SendChat extends AppCompatActivity implements ActivityHooks {
         } else {
 
             CommonUtils.getCameraReady(this, CAMERA_AND_STORAGE_BOTH);
-//            Toast.makeText(this, "Camera not ready", Toast.LENGTH_SHORT).show();
         }
 
     }

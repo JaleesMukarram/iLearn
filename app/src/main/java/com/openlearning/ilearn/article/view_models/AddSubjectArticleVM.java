@@ -2,7 +2,6 @@ package com.openlearning.ilearn.article.view_models;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.interfaces.ConfirmationListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.StorageImage;
-import com.openlearning.ilearn.news.News;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.registration.User;
 import com.openlearning.ilearn.registration.UserRegistration;
@@ -243,6 +241,7 @@ public class AddSubjectArticleVM extends ViewModel {
 
             filePickerUtils.setFilePickerInterface((file, type) -> addArticleImageToStorage(activity, binding.LLImageAppender, finalArticleSection.getStorageImageList(), file));
             filePickerUtils.showNow();
+            Log.d(TAG, "addNewSection: asked for File Picker");
 
         });
 

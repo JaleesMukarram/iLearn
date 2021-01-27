@@ -24,6 +24,7 @@ public class AllSubjectsArticles extends AppCompatActivity implements ActivityHo
     private ActivityAllSubejctsArticlesBinding mBinding;
     private AllSubjectsArticlesVM viewModel;
     private Subject subject;
+    private ArticleAdapter subjectAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +66,7 @@ public class AllSubjectsArticles extends AppCompatActivity implements ActivityHo
 
         });
 
-        mBinding.SRLArticleRefresh.setOnRefreshListener(() -> {
-
-            viewModel.getAllArticleForThisSubject(this);
-        });
+        mBinding.SRLArticleRefresh.setOnRefreshListener(() -> viewModel.getAllArticleForThisSubject(this));
 
     }
 
@@ -77,19 +75,36 @@ public class AllSubjectsArticles extends AppCompatActivity implements ActivityHo
 
         viewModel.getArticleList().observe(this, articles -> {
 
+            if (subjectAdapter == null) {
+                showArticleRecycler(articles);
+
+            } else {
+
+                subjectAdapter.notifyDataSetChanged();
+            }
+
             loaded();
-            showArticleRecycler(articles);
             mBinding.SRLArticleRefresh.setRefreshing(false);
 
         });
-        viewModel.getArticleEmpty().observe(this, aBoolean -> {
+        viewModel.getArticleEmpty().observe(this, empty -> {
 
-            loaded();
-            mBinding.SRLArticleRefresh.setRefreshing(false);
-            mBinding.RVAllArticleRecycler.setAdapter(null);
+            if (empty) {
+
+                loaded();
+                mBinding.SRLArticleRefresh.setRefreshing(false);
+                mBinding.RVAllArticleRecycler.setAdapter(null);
+            }
+
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         viewModel.getAllArticleForThisSubject(this);
-
     }
 
     @Override
@@ -103,7 +118,7 @@ public class AllSubjectsArticles extends AppCompatActivity implements ActivityHo
 
     private void showArticleRecycler(List<Article> articleList) {
 
-        ArticleAdapter subjectAdapter = new ArticleAdapter(this, subject, articleList);
+        subjectAdapter = new ArticleAdapter(this, subject, articleList);
         mBinding.RVAllArticleRecycler.setAdapter(subjectAdapter);
 
     }

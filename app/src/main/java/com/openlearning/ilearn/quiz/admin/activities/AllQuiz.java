@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openlearning.ilearn.R;
@@ -31,6 +30,8 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
     public AllQuizVM viewModel;
     private Subject subject;
     private List<Quiz> quizList;
+
+    private ArticleAdapter articleAdapter;
 
 
     @Override
@@ -81,6 +82,7 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
 
             viewModel.getQuizOfSubject(this, true);
             viewModel.getAllArticleForThisSubject(this);
+
         });
 
     }
@@ -107,22 +109,33 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
 
         viewModel.getArticleList().observe(this, articleList -> {
 
+            if (articleAdapter == null) {
+                showArticleRecycler(articleList);
+            } else {
+                articleAdapter.notifyDataSetChanged();
+            }
+
             loaded();
-            showArticleRecycler(articleList);
             mBinding.SRLQuizRefresh.setRefreshing(false);
         });
-        viewModel.getArticleEmpty().observe(this, aBoolean -> {
+        viewModel.getArticleEmpty().observe(this, empty -> {
 
-            if (aBoolean) {
+            if (empty) {
                 loaded();
+                mBinding.RVAllArticleRecycler.setAdapter(null);
                 mBinding.SRLQuizRefresh.setRefreshing(false);
             }
 
         });
 
         viewModel.getQuizOfSubject(this, false);
-        viewModel.getAllArticleForThisSubject(this);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.getAllArticleForThisSubject(this);
     }
 
     @Override
@@ -141,8 +154,8 @@ public class AllQuiz extends AppCompatActivity implements ActivityHooks {
 
     private void showArticleRecycler(List<Article> articleList) {
 
-        ArticleAdapter subjectAdapter = new ArticleAdapter(this, subject, articleList);
-        mBinding.RVAllArticleRecycler.setAdapter(subjectAdapter);
+        articleAdapter = new ArticleAdapter(this, subject, articleList);
+        mBinding.RVAllArticleRecycler.setAdapter(articleAdapter);
 
     }
 

@@ -4,15 +4,10 @@ package com.openlearning.ilearn.article.repositories;
 import android.net.Uri;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -22,7 +17,6 @@ import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.PostComment;
 import com.openlearning.ilearn.modals.PostReact;
 import com.openlearning.ilearn.modals.StorageImage;
-import com.openlearning.ilearn.news.News;
 import com.openlearning.ilearn.utils.StorageUploadTask;
 
 import java.io.File;

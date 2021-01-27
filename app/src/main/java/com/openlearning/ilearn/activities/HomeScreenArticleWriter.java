@@ -8,13 +8,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.activities.AllChats;
 import com.openlearning.ilearn.databinding.ActivityHomeScreenArticleWriterBinding;
 import com.openlearning.ilearn.dialogues.AccountOptionDialogue;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
-import com.openlearning.ilearn.news.News;
-import com.openlearning.ilearn.news.NewsAdapter;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.adapters.NewsAdapter;
 import com.openlearning.ilearn.quiz.admin.modals.Subject;
 import com.openlearning.ilearn.quiz.client.adapters.SubjectAdapterClient;
+import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.view_models.HomeScreenArticleWriterVM;
 
 import java.util.List;
@@ -56,6 +58,9 @@ public class HomeScreenArticleWriter extends AppCompatActivity implements Activi
         mBinding.TVUserName.setOnClickListener(accountOptionsListener);
         mBinding.TVUserType.setOnClickListener(accountOptionsListener);
 
+        mBinding.IVConversation.setOnClickListener(v -> CommonUtils.changeActivity(this, AllChats.class, false));
+
+
     }
 
     @Override
@@ -69,7 +74,6 @@ public class HomeScreenArticleWriter extends AppCompatActivity implements Activi
         viewModel.getSubjectsList().observe(this, this::showSubjectRecycler);
 
         viewModel.getSubjects(false);
-
 
     }
 

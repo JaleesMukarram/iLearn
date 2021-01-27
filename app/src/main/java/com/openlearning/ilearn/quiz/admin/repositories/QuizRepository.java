@@ -118,6 +118,30 @@ public class QuizRepository {
 
     }
 
+    public void deleteQuizSection(String quizSectionID, Quiz quiz, FirebaseSuccessListener listener) {
+
+        db.collection(SUBJECT_COLLECTION)
+                .document(quiz.getQuizSubjectID())
+                .collection(QUIZ_COLLECTION)
+                .document(quiz.getQuizID())
+                .collection(QUIZ_SECTION_COLLECTION)
+                .document(quizSectionID)
+                .delete()
+                .addOnCompleteListener(task -> {
+
+                    if (!task.isSuccessful()) {
+
+                        Log.d(TAG, "deleteQuizSection: failed to insert new Quiz: " + task.getException());
+                        listener.onFailure(task.getException());
+                        return;
+                    }
+
+                    listener.onSuccess(null);
+                    Log.d(TAG, "deleteQuizSection: Subject added successfully");
+                });
+
+    }
+
     public void insertNewQuizQuestion(QuizQuestion quizQuestion, Quiz quiz, String quizSectionId, FirebaseSuccessListener listener) {
 
         db.collection(SUBJECT_COLLECTION)
@@ -144,6 +168,32 @@ public class QuizRepository {
 
     }
 
+    public void deleteQuizQuestion(String quizQuestionID, Quiz quiz, String quizSectionId, FirebaseSuccessListener listener) {
+
+        db.collection(SUBJECT_COLLECTION)
+                .document(quiz.getQuizSubjectID())
+                .collection(QUIZ_COLLECTION)
+                .document(quiz.getQuizID())
+                .collection(QUIZ_SECTION_COLLECTION)
+                .document(quizSectionId)
+                .collection(QUIZ_SECTION_QUESTION_COLLECTION)
+                .document(quizQuestionID)
+                .delete()
+                .addOnCompleteListener(task -> {
+
+                    if (!task.isSuccessful()) {
+
+                        Log.d(TAG, "deleteQuizQuestion: failed to insert new Question: " + task.getException());
+                        listener.onFailure(task.getException());
+                        return;
+                    }
+
+                    listener.onSuccess(null);
+                    Log.d(TAG, "deleteQuizQuestion: Question added successfully");
+                });
+
+    }
+    
     public void updateQuizQuestion(QuizQuestion quizQuestion, Quiz quiz, String quizSectionId, FirebaseSuccessListener listener) {
 
         db.collection(SUBJECT_COLLECTION)

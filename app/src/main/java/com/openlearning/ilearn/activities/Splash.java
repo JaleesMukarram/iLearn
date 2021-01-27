@@ -86,15 +86,7 @@ public class Splash extends AppCompatActivity implements ActivityHooks {
                 case STATUS_COMPLETE_REGISTERED:
 
                     Log.d(TAG, "process: STATUS_COMPLETE_REGISTERED");
-
-                    if (viewModel.getUser().getAccountType() == User.TYPE_GENERAL_USER) {
-                        CommonUtils.changeActivity(this, HomeScreen.class, true);
-                    } else if (viewModel.getUser().getAccountType() == User.TYPE_INSTRUCTOR) {
-                        CommonUtils.changeActivity(this, HomeScreenInstructor.class, true);
-                    } else if (viewModel.getUser().getAccountType() == User.TYPE_ARTICLE_WRITER) {
-                        CommonUtils.changeActivity(this, HomeScreenArticleWriter.class, true);
-                    }
-
+                    CommonUtils.changeActivity(this, CommonUtils.getHomeScreenClass(this), true);
                     break;
 
                 case STATUS_NOT_REGISTERED:

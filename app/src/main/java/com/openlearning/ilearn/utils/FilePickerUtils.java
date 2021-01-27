@@ -115,6 +115,8 @@ public class FilePickerUtils implements ActivityHooks {
 
     public void showNow() {
 
+        Log.d(TAG, "showNow: Started showing");
+
         if (filesLoaded) {
 
             init();

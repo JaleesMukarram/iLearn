@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.dialogues;
 
 import android.app.Activity;
 import android.app.AlertDialog;

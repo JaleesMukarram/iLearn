@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.modals;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +9,6 @@ import androidx.databinding.Bindable;
 import com.google.firebase.firestore.ServerTimestamp;
 import com.openlearning.ilearn.modals.PostReact;
 import com.openlearning.ilearn.modals.StorageImage;
-import com.openlearning.ilearn.modals.StorageItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;

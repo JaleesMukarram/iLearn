@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.view_model;
 
 import android.util.Log;
 
@@ -7,11 +7,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.PostReact;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.repositories.NewsRepository;
 import com.openlearning.ilearn.registration.UserRegistration;
 
-import static com.openlearning.ilearn.utils.CommonUtils.addMyReact;
+import static com.openlearning.ilearn.utils.CommonUtils.getMyReact;
 import static com.openlearning.ilearn.utils.CommonUtils.isMyReactDone;
-import static com.openlearning.ilearn.utils.CommonUtils.removeMyReact;
 
 public class NewsDetailsVM extends ViewModel {
 
@@ -29,7 +30,7 @@ public class NewsDetailsVM extends ViewModel {
         likeStatusChanged.setValue(true);
     }
 
-    void initIDs(News news) {
+    public void initIDs(News news) {
         this.news = news;
     }
 
@@ -43,35 +44,50 @@ public class NewsDetailsVM extends ViewModel {
 
         likeStatusChanged.setValue(false);
 
-        if (isMyReactDone(news.getPostReactList(), userRegistration.getUserID())) {
+        PostReact myReact = getMyReact(news.getPostReactList(), userRegistration.getUserID());
 
-            removeMyReact(news.getPostReactList(), userRegistration.getUserID());
+        if (myReact != null) {
+
             Log.d(TAG, "manageLike: my like removed");
+            newsRepository.removePostReactForThisNews(news.getId(), myReact, new FirebaseSuccessListener() {
+                @Override
+                public void onSuccess(Object obj) {
+
+                    news.getPostReactList().remove(myReact);
+                    likeStatusChanged.setValue(true);
+                }
+
+                @Override
+                public void onFailure(Exception ex) {
+
+                    likeStatusChanged.setValue(true);
+
+                }
+            });
+
         } else {
 
-            addMyReact(news.getPostReactList(), userRegistration.getUserID(), PostReact.REACT_LIKE);
             Log.d(TAG, "manageLike: my like added");
+            PostReact myNewReact = new PostReact(userRegistration.getUserID(), PostReact.REACT_LIKE);
+            newsRepository.addPostReactForThisNews(news.getId(), myNewReact, new FirebaseSuccessListener() {
+                @Override
+                public void onSuccess(Object obj) {
+
+                    news.getPostReactList().add(myNewReact);
+                    likeStatusChanged.setValue(true);
+
+                }
+
+                @Override
+                public void onFailure(Exception ex) {
+
+                    likeStatusChanged.setValue(true);
+                }
+            });
         }
 
-        newsRepository.updateReactListForThisNews(news.getId(), news.getPostReactList(), new FirebaseSuccessListener() {
-            @Override
-            public void onSuccess(Object obj) {
 
-                likeStatusChanged.setValue(true);
-                Log.d(TAG, "onSuccess: ");
-
-            }
-
-            @Override
-            public void onFailure(Exception ex) {
-
-                likeStatusChanged.setValue(true);
-                Log.d(TAG, "onFailure: ");
-
-            }
-        });
     }
-
 
     public String getUserID() {
 

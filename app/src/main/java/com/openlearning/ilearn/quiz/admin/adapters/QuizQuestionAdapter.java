@@ -50,9 +50,6 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
     @Override
     public int getItemCount() {
 
-        if (quizQuestionList == null) {
-            return 0;
-        }
         return quizQuestionList.size();
     }
 
@@ -73,10 +70,6 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
             mBinding.setQuestion(quizQuestionList.get(position));
             mBinding.getRoot().setOnClickListener(v -> {
 
-//                Intent intent = new Intent(context, AddQuestions.class);
-//                intent.putExtra(Quiz.PARCELABLE_KEY, (Parcelable) quiz);
-//                intent.putExtra(QuizSection.PARCELABLE_KEY, (Parcelable) quizSectionList.get(position));
-//                CommonUtils.changeActivity((Activity) context, intent, false);
 
             });
 

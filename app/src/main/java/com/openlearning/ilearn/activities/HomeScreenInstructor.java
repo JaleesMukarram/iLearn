@@ -1,17 +1,18 @@
 package com.openlearning.ilearn.activities;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.os.Bundle;
-import android.view.View;
-
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.chat.activities.AllChats;
 import com.openlearning.ilearn.databinding.ActivityHomeScreenInstructorBinding;
 import com.openlearning.ilearn.dialogues.AccountOptionDialogue;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
-import com.openlearning.ilearn.news.AllNews;
+import com.openlearning.ilearn.news.activities.AllNews;
 import com.openlearning.ilearn.quiz.admin.activities.AllSubjects;
 import com.openlearning.ilearn.utils.CommonUtils;
 import com.openlearning.ilearn.view_models.HomeScreenInstructorVM;
@@ -50,6 +51,8 @@ public class HomeScreenInstructor extends AppCompatActivity implements ActivityH
         mBinding.IVAccountTypeIcon.setOnClickListener(accountOptionsListener);
         mBinding.TVUserName.setOnClickListener(accountOptionsListener);
         mBinding.TVUserType.setOnClickListener(accountOptionsListener);
+        mBinding.IVConversation.setOnClickListener(v -> CommonUtils.changeActivity(this, AllChats.class, false));
+
 
         mBinding.CVManageNews.setOnClickListener(v -> CommonUtils.changeActivity(this, AllNews.class, false));
         mBinding.CVManageSubject.setOnClickListener(v -> CommonUtils.changeActivity(this, AllSubjects.class, false));
@@ -59,6 +62,8 @@ public class HomeScreenInstructor extends AppCompatActivity implements ActivityH
     public void process() {
 
         mBinding.setUser(viewModel.getCurrentUser());
+//        CommonUtils.startBackgroundWork(this);
+
     }
 
     @Override
@@ -74,7 +79,6 @@ public class HomeScreenInstructor extends AppCompatActivity implements ActivityH
 
     }
 
-
     private class AccountOptionsListener implements View.OnClickListener {
 
         @Override
@@ -83,5 +87,6 @@ public class HomeScreenInstructor extends AppCompatActivity implements ActivityH
             showAccountDialogue();
         }
     }
+
 
 }

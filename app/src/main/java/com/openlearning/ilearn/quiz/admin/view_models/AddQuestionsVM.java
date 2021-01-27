@@ -25,11 +25,13 @@ public class AddQuestionsVM extends ViewModel {
     private Quiz quiz;
     private QuizSection quizSection;
     private final MutableLiveData<List<QuizQuestion>> questionsList;
+    private final MutableLiveData<Boolean> questionsEmpty;
 
     public AddQuestionsVM() {
 
         quizRepository = QuizRepository.getInstance();
         questionsList = new MutableLiveData<>();
+        questionsEmpty = new MutableLiveData<>();
     }
 
     public void getAllSectionQuestions(Activity activity, boolean fromServer) {
@@ -43,9 +45,9 @@ public class AddQuestionsVM extends ViewModel {
 
                     questionsList.setValue((List<QuizQuestion>) obj);
 
-                } else {
+                }else{
 
-                    Toast.makeText(activity, "No Questions so far", Toast.LENGTH_SHORT).show();
+                    questionsEmpty.setValue(true);
                 }
 
             }
@@ -72,6 +74,22 @@ public class AddQuestionsVM extends ViewModel {
             public void onFailure(Exception ex) {
 
                 CommonUtils.showDangerDialogue(activity, ex.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void deleteQuizQuestion(Activity activity, String quizQuestionID) {
+
+        quizRepository.deleteQuizQuestion(quizQuestionID, quiz, quizSection.getId(), new FirebaseSuccessListener() {
+            @Override
+            public void onSuccess(Object obj) {
+
+                CommonUtils.showSuccessDialogue(activity, "Question Deleted Successfully");
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
             }
         });
     }
@@ -106,4 +124,7 @@ public class AddQuestionsVM extends ViewModel {
         return questionsList;
     }
 
+    public MutableLiveData<Boolean> getQuestionsEmpty() {
+        return questionsEmpty;
+    }
 }

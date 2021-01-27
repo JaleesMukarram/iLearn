@@ -240,4 +240,10 @@ public class SendChatVM extends ViewModel {
         return receivingUserName;
 
     }
+
+    public void destroyForThis() {
+
+        chatRepository.destroyListener();
+        chatRepository = null;
+    }
 }

@@ -12,6 +12,14 @@
         android:layout_height="match_parent"
         tools:context=".chat.activities.SendChat">
 
+        <ProgressBar
+            android:id="@+id/PBRLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:theme="@style/PrimaryAsAccent" />
+
         <RelativeLayout
             android:id="@+id/RVTopContainerQuery"
             android:layout_width="match_parent"
@@ -20,7 +28,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:background="@color/colorPrimary"
-
+            android:visibility="gone"
             >
 
             <ImageView
@@ -55,7 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
-
+            android:visibility="gone"
             >
 
             <RelativeLayout

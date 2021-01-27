@@ -13,7 +13,6 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -21,26 +20,38 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.openlearning.ilearn.BuildConfig;
 import com.openlearning.ilearn.R;
+import com.openlearning.ilearn.activities.HomeScreen;
+import com.openlearning.ilearn.activities.HomeScreenArticleWriter;
+import com.openlearning.ilearn.activities.HomeScreenInstructor;
+import com.openlearning.ilearn.activities.Splash;
+import com.openlearning.ilearn.chat.background.NewMessageWork;
 import com.openlearning.ilearn.chat.queries.FirebaseGlobals;
+import com.openlearning.ilearn.chat.repositories.AllChatsRepository;
 import com.openlearning.ilearn.databinding.ViewFullScreenImageShowingBinding;
-import com.openlearning.ilearn.databinding.ViewSingleImageBinding;
 import com.openlearning.ilearn.dialogues.LoadingDialogue;
 import com.openlearning.ilearn.dialogues.MessageDialogue;
 import com.openlearning.ilearn.interfaces.ConfirmationListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
 import com.openlearning.ilearn.modals.PostReact;
-import com.openlearning.ilearn.modals.StorageImage;
 import com.openlearning.ilearn.modals.StorageItem;
+import com.openlearning.ilearn.news.repositories.NewsRepository;
+import com.openlearning.ilearn.registration.User;
+import com.openlearning.ilearn.registration.UserRegistration;
 
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CommonUtils {
 
@@ -471,10 +482,17 @@ public class CommonUtils {
     public static boolean isMyReactDone(List<PostReact> postReactList, String myID) {
 
         for (PostReact postReact : postReactList) {
-
-            if (postReact.getUserID().equals(myID)) return true;
+            if (myID.equals(postReact.getUserID())) return true;
         }
         return false;
+    }
+
+    public static PostReact getMyReact(List<PostReact> postReactList, String myID) {
+
+        for (PostReact postReact : postReactList) {
+            if (myID.equals(postReact.getUserID())) return postReact;
+        }
+        return null;
     }
 
     public static void removeMyReact(List<PostReact> postReactList, String myID) {
@@ -493,6 +511,63 @@ public class CommonUtils {
 
         PostReact postReact = new PostReact(myID, likeStatus);
         postReactList.add(postReact);
+    }
+
+    public static void startBackgroundWork(Context context) {
+
+        Constraints messageConstraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED).build();
+
+        PeriodicWorkRequest chatNewMessageWork = new PeriodicWorkRequest.Builder(NewMessageWork.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .setConstraints(messageConstraints)
+                .build();
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                NewMessageWork.UNIQUE_NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                chatNewMessageWork
+        );
+
+        AllChatsRepository.getInstance();
+    }
+
+    public static void onUserThingsReady(Context context) {
+
+//        context.startService(new Intent(context, BackgroundService.class));
+//        startBackgroundWork(context);
+
+    }
+
+    public static Class<?> getHomeScreenClass(Context context) {
+
+        User user = UserRegistration.getInstance().getCurrentUserFromDB();
+
+        if (user.getAccountType() == User.TYPE_GENERAL_USER) {
+
+            onUserThingsReady(context);
+            return HomeScreen.class;
+
+        } else if (user.getAccountType() == User.TYPE_INSTRUCTOR) {
+
+            return HomeScreenInstructor.class;
+
+
+        } else if (user.getAccountType() == User.TYPE_ARTICLE_WRITER) {
+
+            onUserThingsReady(context);
+            return HomeScreenArticleWriter.class;
+
+        }
+
+        return Splash.class;
+    }
+
+    public static void onUserThingsUpdated(Context context) {
+
+        NewsRepository.getInstance().destroy();
+        AllChatsRepository.getInstance().destroy();
+        context.stopService(new Intent(context, BackgroundService.class));
+
     }
 
 

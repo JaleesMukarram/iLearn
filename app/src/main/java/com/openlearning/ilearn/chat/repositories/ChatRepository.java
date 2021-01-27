@@ -48,6 +48,8 @@ public class ChatRepository {
     private boolean firstMessageSent;
     private final List<Chat> chatList;
 
+    private ConstantChildEventListenerForChats listenerForChats;
+
     private FireStoreObjectGetListener listener;
 
     public ChatRepository(String sendingUserID, String receivingUserID) {
@@ -171,8 +173,14 @@ public class ChatRepository {
 
         query.keepSynced(false);
 
-        query.addChildEventListener(new ConstantChildEventListenerForChats());
+        listenerForChats = new ConstantChildEventListenerForChats();
 
+        query.addChildEventListener(listenerForChats);
+
+    }
+
+    public void destroyListener() {
+        db.getReference(FirebaseGlobals.Database.QUERY_CHAT_REFERENCE).removeEventListener(listenerForChats);
     }
 
 
@@ -420,6 +428,7 @@ public class ChatRepository {
     public void setFirstMessageSent(boolean firstMessageSent) {
         this.firstMessageSent = firstMessageSent;
     }
+
 
     // Storage
     private void addNewItemToDatabase(Uri uri, String fileName, Class<?> returningClass, FirebaseSuccessListener listener) {

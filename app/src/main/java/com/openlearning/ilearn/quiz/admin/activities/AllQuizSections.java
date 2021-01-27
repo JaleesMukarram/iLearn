@@ -77,10 +77,7 @@ public class AllQuizSections extends AppCompatActivity implements ActivityHooks 
             showQuizRecycler();
         });
 
-        viewModel.getQuizSectionsEmpty().observe(this, aBoolean -> {
-
-            Toast.makeText(this, "No Sections for this quiz", Toast.LENGTH_SHORT).show();
-        });
+        viewModel.getQuizSectionsEmpty().observe(this, aBoolean -> Toast.makeText(this, "No Sections for this quiz", Toast.LENGTH_SHORT).show());
 
         viewModel.getAllSections(this);
 
@@ -102,11 +99,7 @@ public class AllQuizSections extends AppCompatActivity implements ActivityHooks 
 
     private void showQuizRecycler() {
 
-        QuizSectionAdapter adapter = new QuizSectionAdapter(this, quiz, quizSectionList, quizSectionID -> {
-
-            viewModel.deleteQuizSection(quizSectionID);
-
-        });
+        QuizSectionAdapter adapter = new QuizSectionAdapter(this, quiz, quizSectionList, quizSectionID -> viewModel.deleteQuizSection(quizSectionID));
         mBinding.RVAllQuizSectionsRecycler.setAdapter(adapter);
 
     }

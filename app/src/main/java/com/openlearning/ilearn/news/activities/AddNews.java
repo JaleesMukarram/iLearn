@@ -1,4 +1,4 @@
-package com.openlearning.ilearn.news;
+package com.openlearning.ilearn.news.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.openlearning.ilearn.R;
 import com.openlearning.ilearn.databinding.ActivityAddNewNewsBinding;
 import com.openlearning.ilearn.interfaces.ActivityHooks;
-import com.openlearning.ilearn.modals.StorageImage;
+import com.openlearning.ilearn.news.modals.News;
+import com.openlearning.ilearn.news.dialogues.StatusDialogue;
+import com.openlearning.ilearn.news.view_model.AddNewsVM;
 import com.openlearning.ilearn.utils.FilePickerUtils;
 
 public class AddNews extends AppCompatActivity implements ActivityHooks {

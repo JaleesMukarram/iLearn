@@ -1,5 +1,6 @@
 package com.openlearning.ilearn.registration;
 
+import android.content.Context;
 import android.util.Log;
 import android.util.Patterns;
 
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.openlearning.ilearn.registration.interfaces.AuthStateRequestListener;
 import com.openlearning.ilearn.interfaces.FireStoreObjectGetListener;
 import com.openlearning.ilearn.interfaces.FirebaseSuccessListener;
+import com.openlearning.ilearn.utils.CommonUtils;
 
 import static com.openlearning.ilearn.utils.CommonUtils.MAX_LENGTH_MEDIUM;
 import static com.openlearning.ilearn.utils.CommonUtils.MAX_LENGTH_SMALL;
@@ -317,9 +319,10 @@ public class UserRegistration {
     }
 
 
-    public void signOutUser() {
+    public void signOutUser(Context context) {
 
         mAuth.signOut();
+        CommonUtils.onUserThingsUpdated(context);
     }
 
     public void changeUserName(String name) {
